@@ -1,0 +1,15 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/william/Documents/Coding/Embedd 3/Assignment 2 - BareOS'
+rm -f *.img .\build\kernel8.elf .\build\*.o
+aarch64-none-elf-gcc -Wall -O2 -ffreestanding -nostdinc -nostdlib -c src/boot.S -o object/boot.o
+aarch64-none-elf-gcc  -c src/framebf.c -o object/framebf.o
+aarch64-none-elf-gcc  -c src/main.c -o object/main.o
+aarch64-none-elf-gcc  -c src/mbox.c -o object/mbox.o
+aarch64-none-elf-gcc  -c src/quest_a.c -o object/quest_a.o
+aarch64-none-elf-gcc  -c src/quest_b.c -o object/quest_b.o
+aarch64-none-elf-gcc  -c src/uart.c -o object/uart.o
+aarch64-none-elf-ld -nostdlib -nostartfiles ./object/boot.o ./object/framebf.o ./object/main.o ./object/mbox.o ./object/quest_a.o ./object/quest_b.o ./object/uart.o -T ./src/link.ld -o ./object/kernel8.elf
+aarch64-none-elf-objcopy -O binary ./object/kernel8.elf kernel8.img
+qemu-system-aarch64 -M raspi3b -kernel kernel8.img -serial null -serial stdio
+make: Leaving directory `/Users/william/Documents/Coding/Embedd 3/Assignment 2 - BareOS'
+ 
