@@ -1,24 +1,24 @@
-// -----------------------------------main.c -------------------------------------
+// -----------------------------------main.c
+// -------------------------------------
 #include "mbox.h"
 #include "uart.h"
 // include welcome
 #include "quest_a.h"
 #include "quest_b.h"
 
-void main()
-{
+void main() {
     // set up serial console
-    char args[4][30];
+    char args[10][30];
     uart_init();
 
     // welcome
     print_welcome();
-    // help_command();
 
+    help_command();
+    uart_puts("\n\n");
     // echo everything back
-    while (1)
-    {
-        get_command(4, 30, args);
+    while (1) {
+        get_command(10, 30, args);
     }
 }
 
@@ -58,12 +58,10 @@ void main()
 //   uart_sendc(c);
 //  }
 // }
-int strlen(char *str)
-{
+int strlen(char *str) {
     int i = 0;
 
-    while (str[i] != '\0')
-    {
+    while (str[i] != '\0') {
         i++;
     }
 
