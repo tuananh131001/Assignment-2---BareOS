@@ -8,17 +8,17 @@
 void main()
 {
     // set up serial console
-    char args[10][30];
+    char args[4][30];
     uart_init();
 
     // welcome
     print_welcome();
-    help_command();
+    // help_command();
 
     // echo everything back
     while (1)
     {
-        get_command(10,30,args);
+        get_command(4, 30, args);
     }
 }
 
@@ -58,3 +58,14 @@ void main()
 //   uart_sendc(c);
 //  }
 // }
+int strlen(char *str)
+{
+    int i = 0;
+
+    while (str[i] != '\0')
+    {
+        i++;
+    }
+
+    return i;
+}

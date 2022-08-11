@@ -1,7 +1,6 @@
 #include "mbox.h"
 #include "uart.h"
 #include "quest_b.h"
-
 void help_command()
 {
     uart_puts("For more information on specific command type 'help <command>'\n");
@@ -25,23 +24,35 @@ void clear_args(int m, int n, char args[][n])
     }
 }
 
-// compare string return 0 or 1
-int strcmp(char *s1, char *s2)
+
+/*
+ * return 1: identical
+ * return 0: different
+ */
+int strcmp(char *str1, char *str2)
 {
-    int i = 0;
-    while (s1[i] != '\0' && s2[i] != '\0')
+    // compare length
+    if (strlen(str1) != strlen(str2))
+        return 0;
+
+    char *p1 = str1; // pointer pointing to first character in str1
+    char *p2 = str2; // pointer pointing to first character in str2
+
+    while (*p1 != '\0' && *p2 != '\0')
     {
-        if (s1[i] != s2[i])
-        {
+        //		uart_puts("strcmp: p1 = ");
+        //		uart_putc(*p1);
+        //		uart_puts("			p2 = ");
+        //		uart_putc(*p2);
+        //		uart_puts("\n");
+        if (*p1 != *p2)
             return 0;
-        }
-        i++;
+
+        p1++;
+        p2++;
     }
-    if (s1[i] == '\0' && s2[i] == '\0')
-    {
-        return 1;
-    }
-    return 0;
+    //	uart_puts("\n");
+    return 1;
 }
 
 // split input string into arguments
@@ -86,134 +97,123 @@ int get_arguments(char *str, int m, int n, char args[][n])
     return (space_flag == 0) ? (i + 1) : i;
 }
 
-int get_input(int m, int n, char args[][n])
-{
-    // clear arguments
-    clear_args(m, n, args);
+int get_input(int m, int n, char args[][n]) {
+	// clear arguments
+	clear_args(m, n, args);
 
-    char c = 0;         // initialize char c
-    int i = 0;          // index of string
-    char temp_str[100]; // temp string to store the entire command
+	char c = 0;		// initialize char c
+	int i = 0; 		// index of string
+	char temp_str[100]; // temp string to store the entire command
 
-    // variables to make sure backspace wouldn't delete the enter input message
-    int total_char = 0; // total number of char that was input
+	// variables to make sure backspace wouldn't delete the enter input message
+	int total_char = 0; // total number of char that was input
 
-    uart_puts("\nTuanAnhOS> ");
+	uart_puts("\nPhucsBareOS> ");
 
-    // get first char
-    c = uart_getc();
+	// get first char
+	c = uart_getc();
 
-    // if first char is not ' ' or backspace => add first char to input string
-    if (c != ' ' && c != 8)
-    {
-        // send back to display the first character
-        uart_sendc(c);
-        total_char++; // increase total char displayed on the terminal
+	// if first char is not ' ' or backspace => add first char to input string
+	if (c != ' ' && c != 8) {
+		// send back to display the first character
+		uart_sendc(c);
+		total_char++; // increase total char displayed on the terminal
 
-        // add first char
-        temp_str[i] = c;
+		// add first char
+		temp_str[i] = c;
 
-        // increment to the next character
-        i++;
-    }
-    else
-    { // else check first char is backspace OR ' '
-        while (c == 8 || c == ' ')
-        {
-            // if char is ' '
-            if (c == ' ')
-            {
-                // send back to display the first space
-                uart_sendc(c);
-                total_char++; // increase total char displayed on the terminal
-            }
-            else if (c == 8)
-            { // if char is backspace
-                uart_puts("\b \b"); // send backspace and two spaces
-                if (total_char > 0)
-                {
-                    uart_sendc(c); // send back backspace
-                    total_char--;
-                }
-            }
+		// increment to the next character
+		i++;
 
-            // get next char
-            c = uart_getc();
+	} else { // else check first char is backspace OR ' '
+		while (c == 8 || c == ' ') {
+			// if char is ' '
+			if (c == ' ') {
+				// send back to display the first space
+				uart_sendc(c);
+				total_char++; // increase total char displayed on the terminal
 
-            // if c is normal character => add first char to input string
-            if (c != ' ' && c != 8)
-            {
-                uart_sendc(c); // send back to display character
-                total_char++;  // increase total char displayed on the terminal
+			} else if (c == 8) { // if char is backspace
+				if (total_char > 0) {
+					uart_sendc(c); // send back backspace
+					total_char--;
+				}
+			}
 
-                // add first char
-                temp_str[i] = c;
+			// get next char
+			c = uart_getc();
 
-                // increment to the next character
-                i++;
-            }
-        }
-    }
-    // loop until new line character
-    while (c != 10)
-    {
-        // read each char
-        c = uart_getc();
+			// if c is normal character => add first char to input string
+			if (c != ' ' && c != 8) {
+				uart_sendc(c); // send back to display character
+				total_char++; // increase total char displayed on the terminal
 
-        // if backspace will delete input message, continue
-        if (c == 8 && total_char == 0)
-        {
-            continue;
-        }
+				// add first char
+				temp_str[i] = c;
 
-        // send back
-        uart_sendc(c);
+				// increment to the next character
+				i++;
+			}
+		}
+	}
 
-        // check if backspace is pressed, go back 1 character
-        if (c == 8)
-        {
-            // send backspace
-            uart_puts("\b\x20\b");
+	// loop until new line character
+	while (c != 10) {
+		// read each char
+		c = uart_getc();
 
-            // make sure i > 0, then delete
-            // case f\b\bf
-            if (i > 0)
-            {
-                // delete/clear last character in string
-                temp_str[i - 1] = '\0';
+		// if backspace will delete input message, continue
+		if (c == 8 && total_char == 0) {
+			continue;
+		}
 
-                // go back 1 character (go to last character that just has been cleared)
-                // if character is the first at new string
-                i--;
-            }
+		//send back
+		uart_sendc(c);
 
-            // delete 1 char => total char has 1 less char
-            total_char--;
+		// check if backspace is pressed, go back 1 character
+		if (c == 8) {
+			//send backspace
+			uart_puts("\x20\b");
 
-            // continue to get the next character
-            continue;
-        }
+			// make sure i > 0, then delete
+			// case f\b\bf
+			if (i > 0) {
+				// delete/clear last character in string
+				temp_str[i - 1] = '\0';
 
-        // if char is not backspace, increase total char
-        total_char++; // increase total char
+				// go back 1 character (go to last character that just has been cleared)
+				// if character is the first at new string
+				i--;
+			}
 
-        // add to temp str
-        temp_str[i] = c;
+			// delete 1 char => total char has 1 less char
+			total_char--;
 
-        // go to next element
-        i++;
-    }
+			// continue to get the next character
+			continue;
+		}
 
-    // add null to mark end of string
-    temp_str[i - 1] = '\0';
+		// if char is not backspace, increase total char
+		total_char++; // increase total char
 
-    return get_arguments(temp_str, m, n, args);
+		// add to temp str
+		temp_str[i] = c;
+
+		// go to next element
+		i++;
+	}
+
+	// add null to mark end of string
+	temp_str[i - 1] = '\0';
+
+	return get_arguments(temp_str, m, n, args);
 }
 
 int get_command(int m, int n, char args[][n])
 {
-    int cmd = -1;
+    
     m = get_input(m, n, args);
+    int cmd = -1;
     static char cmds[][20] = {"brdrev", "cls", "scrsize", "setcolor"};
     // compare input
     for (int i = 0; i < 3; i++)
@@ -271,6 +271,7 @@ int get_command(int m, int n, char args[][n])
         uart_puts("Invalid command. Please enter again!\n");
         break;
     }
+    return cmd;
 }
 void get_brdrev()
 {

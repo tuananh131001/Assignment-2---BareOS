@@ -1,5 +1,4 @@
 int get_input(int m, int n, char args[][n]);
-
 int get_command(int m, int n, char args[][n]);
 
 
@@ -10,3 +9,4 @@ void clear_args(int m, int n, char args[][n]);
 
 // command
 void get_brdrev();
+int strlen(char* str);

@@ -6,9 +6,9 @@ CFILES = $(wildcard $(SRC_DIR)/*.c)
 OFILES = $(CFILES:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 
 GCCFLAGS = -Wall -O2 -ffreestanding -nostdinc -nostdlib
-LDFLAGS = -nostdlib -nostartfiles
+LDFLAGS = -nostdlib
 
-all: clean kernel8.img #run
+all: kernel8.img run
 
 $(BUILD_DIR)/boot.o: $(SRC_DIR)/boot.S
 	aarch64-none-elf-gcc $(GCCFLAGS) -c $< -o $@
