@@ -8,7 +8,7 @@ OFILES = $(CFILES:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 GCCFLAGS = -Wall -O2 -ffreestanding -nostdinc -nostdlib
 LDFLAGS = -nostdlib -nostartfiles
 
-all: clean kernel8.img run
+all: clean kernel8.img #run
 
 $(BUILD_DIR)/boot.o: $(SRC_DIR)/boot.S
 	aarch64-none-elf-gcc $(GCCFLAGS) -c $< -o $@
@@ -21,7 +21,7 @@ kernel8.img: $(BUILD_DIR)/boot.o $(OFILES)
 	aarch64-none-elf-objcopy -O binary $(BUILD_DIR)/kernel8.elf kernel8.img
 
 clean:
-	rm -f *.img .\build\kernel8.elf .\build\*.o
+	rm -f *.img $(BUILD_DIR)/kernel8.elf $(BUILD_DIR)/*.o
 
 run:
 	qemu-system-aarch64 -M raspi3b -kernel kernel8.img -serial null -serial stdio

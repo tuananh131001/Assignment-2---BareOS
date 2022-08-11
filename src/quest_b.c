@@ -129,6 +129,7 @@ int get_input(int m, int n, char args[][n])
             }
             else if (c == 8)
             { // if char is backspace
+                uart_puts("\b \b"); // send backspace and two spaces
                 if (total_char > 0)
                 {
                     uart_sendc(c); // send back backspace
