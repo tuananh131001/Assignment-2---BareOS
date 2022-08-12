@@ -26,6 +26,8 @@ void help_command() {
 void split_function(char *user_input, char **split) {
     int y = 0;
     int z = 0;
+    uart_puts("split[z][y] = ");
+    uart_puts(user_input);
     for (int x = 0; x <= sizeof(user_input); x++) {
         // if space or NULL found, assign NULL into split[z]
         if (user_input[x] == ' ' || user_input[x] == '\0') {
@@ -34,21 +36,54 @@ void split_function(char *user_input, char **split) {
             y = 0;  // for next word, init index to 0
         } else {
             split[z][y] = user_input[x];
+            uart_puts("\nsplit[z][y] = ");
+            uart_puts(user_input[x]);
             y++;
         }
     }
 }
 
 int get_command(int m, int n, char args[][n]) {
-    char temp_str[100];  // temp string to store the entire command
-    char split[40][40];  // char array for storing color commands
+    char temp_str[100];         // temp string to store the entire command
+    char split_color[40][40];   // char array for storing color commands
+    char split_screen[40][40];  // char array for storing color commands
+
+    // Set Color Variables
+    char set_color[40];
+    char set_type1[40];
+    char color1[40];
+    char set_type2[40];
+    char color2[40];
+
+    // Set screen Variables
+    char set_screen[40];
+    char width[40];
+    char height[40];
+    char screen_type1[40];
+
     get_input(m, n, args, temp_str);
-    // uart_puts(m);
-    split_function(temp_str, split);
+    uart_puts("\n Print");
+    uart_puts(&temp_str[0]);
+    uart_puts("\n");
+    split_function(temp_str, split_color);
+    strcpy(split_color[0], set_color);
+    strcpy(split_color[1], set_type1);
+    strcpy(split_color[2], color1);
+    strcpy(split_color[3], set_type2);
+    strcpy(split_color[4], color2);
+    uart_puts("    \n");
+    uart_puts(split_color[0]);
+
+    split_function(temp_str, split_screen);
+    strcpy(split_screen[0], set_screen);
+    strcpy(split_screen[1], screen_type1);
+    strcpy(split_screen[2], width);
+    strcpy(split_screen[3], height);
+
     int cmd = -1;
     static char cmds[][20] = {"brdrev", "cls", "scrsize", "setcolor"};
     // compare input
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i <= 3; i++) {
         if (strcmp(temp_str, cmds[i])) {
             cmd = i;
             break;
@@ -59,14 +94,24 @@ int get_command(int m, int n, char args[][n]) {
         case 0:
             get_brdrev();
             break;
+        case 1:
+            cls();
+            break;
+        case 3:
 
-            // case 1:
-            // 	if (m != 1) {
-            // 		uart_puts("Invalid cls arguments. Please enter
-            // again!\n"); 		return -1; 	} else {
-            // clear_screen();
-            // 	}
-            // 	break;
+            if (strcmp(set_type1, "-t") == 0 && strcmp(color1, '\0') != 0) {
+                uart_puts(color1);
+                if (strcmp(set_type2, "-b") == 0 && strcmp(color2, '\0') != 0) {
+                    set_text_color(color1);
+                    set_background_color(color2);
+                }
+                set_text_color(color1);
+                break;
+            } else if (strcmp(set_type1, "-b") == 0 &&
+                       strcmp(color1, '\0') != 0) {
+                set_background_color(color1);
+            }
+            break;
 
             // case 2:
             // 	if (m != 3 && m != 4 && m != 7) {
@@ -119,6 +164,7 @@ void get_input(int m, int n, char args[][n],
         }
 
         // delete each character when user press BackSpace each time
+        // Use Ctrl + H on MacOS
         else if (c == 8 && total_char > 0) {
             uart_sendc(c);
             uart_sendc(32);
@@ -194,6 +240,54 @@ void get_brdrev()
         uart_puts("\nUnable to get board revision!\n");
     }
 }
+// Utility
+void cls() { uart_puts("\033[H\033[J"); }
+/**
+ * Set color for text.
+ */
+void set_text_color(char text[]) {
+    if (strcmp(text, "black") == 0) {
+        uart_puts("\033[30;1m");
+    } else if (strcmp(text, "red") == 0) {
+        uart_puts("\033[31;1m");
+    } else if (strcmp(text, "green") == 0) {
+        uart_puts("\033[32;1m");
+    } else if (strcmp(text, "yellow") == 0) {
+        uart_puts("\033[33;1m");
+    } else if (strcmp(text, "blue") == 0) {
+        uart_puts("\033[34;1m");
+    } else if (strcmp(text, "purple") == 0) {
+        uart_puts("\033[35;1m");
+    } else if (strcmp(text, "cyan") == 0) {
+        uart_puts("\033[36;1m");
+    } else if (strcmp(text, "white") == 0) {
+        uart_puts("\033[37;1m");
+    }
+}
+
+/**
+ * Set color for background.
+ */
+void set_background_color(char background[]) {
+    if (strcmp(background, "black") == 0) {
+        uart_puts("\033[40;1m");
+    } else if (strcmp(background, "red") == 0) {
+        uart_puts("\033[41;1m");
+    } else if (strcmp(background, "green") == 0) {
+        uart_puts("\033[42;1m");
+    } else if (strcmp(background, "yellow") == 0) {
+        uart_puts("\033[43;1m");
+    } else if (strcmp(background, "blue") == 0) {
+        uart_puts("\033[44;1m");
+    } else if (strcmp(background, "purple") == 0) {
+        uart_puts("\033[45;1m");
+    } else if (strcmp(background, "cyan") == 0) {
+        uart_puts("\033[46;1m");
+    } else if (strcmp(background, "white") == 0) {
+        uart_puts("\033[47;1m");
+    }
+}
+
 /*
  * return 1: identical
  * return 0: different
@@ -219,4 +313,13 @@ void clear_args(int m, int n, char args[][n]) {
             args[i][j] = '\0';
         }
     }
+}
+/**
+ * String copy.
+ */
+void strcpy(char *src, char *dest) {
+    while (*src) {
+        *(dest++) = *(src++);
+    }
+    *dest = '\0';
 }
