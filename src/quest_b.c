@@ -26,8 +26,7 @@ void help_command() {
 void split_function(char *user_input, char **split) {
     int y = 0;
     int z = 0;
-    uart_puts("split[z][y] = ");
-    uart_puts(user_input);
+
     for (int x = 0; x <= sizeof(user_input); x++) {
         // if space or NULL found, assign NULL into split[z]
         if (user_input[x] == ' ' || user_input[x] == '\0') {
@@ -36,15 +35,14 @@ void split_function(char *user_input, char **split) {
             y = 0;  // for next word, init index to 0
         } else {
             split[z][y] = user_input[x];
-            uart_puts("\nsplit[z][y] = ");
-            uart_puts(user_input[x]);
             y++;
         }
     }
 }
 
-int get_command(int m, int n, char args[][n]) {
-    char temp_str[100];         // temp string to store the entire command
+void get_command(int m, int n, char args[][n]) {
+    char user_input[100];  // temp string to store the entire command
+    char temp_str[100];
     char split_color[40][40];   // char array for storing color commands
     char split_screen[40][40];  // char array for storing color commands
 
@@ -60,31 +58,58 @@ int get_command(int m, int n, char args[][n]) {
     char width[40];
     char height[40];
     char screen_type1[40];
+    int y = 0;
+    int z = 0;
 
     get_input(m, n, args, temp_str);
-    uart_puts("\n Print");
-    uart_puts(&temp_str[0]);
-    uart_puts("\n");
-    split_function(temp_str, split_color);
+    // split_function(temp_str, split_color);
+
+    for (int x = 0; x <= sizeof(temp_str); x++) {
+        // if space or NULL found, assign NULL into split[z]
+        if (temp_str[x] == ' ' || temp_str[x] == '\0') {
+            split_color[z][y] = '\0';
+            z++;    // for next word
+            y = 0;  // for next word, init index to 0
+        } else {
+            user_input[x] = temp_str[x];
+            split_color[z][y] = temp_str[x];
+            y++;
+        }
+    }
+
     strcpy(split_color[0], set_color);
     strcpy(split_color[1], set_type1);
     strcpy(split_color[2], color1);
     strcpy(split_color[3], set_type2);
     strcpy(split_color[4], color2);
-    uart_puts("    \n");
-    uart_puts(split_color[0]);
-
-    split_function(temp_str, split_screen);
+    // // split_function(temp_str, split_screen);
+    // int y1 = 0;
+    // int z1 = 0;
+    // for (int x1 = 0; x1 <= sizeof(temp_str); x1++) {
+    //     // if space or NULL found, assign NULL into split[z]
+    //     if (str[x1] == ' ' || str[x1] == '\0') {
+    //         split_screen[z1][y1] = '\0';
+    //         z1++;    // for next word
+    //         y1 = 0;  // for next word, init index to 0
+    //     } else {
+    //         split_screen[z1][y1] = str[x1];
+    //         y1++;
+    //     }
+    // }
     strcpy(split_screen[0], set_screen);
     strcpy(split_screen[1], screen_type1);
     strcpy(split_screen[2], width);
     strcpy(split_screen[3], height);
-
+    // ----- COMMANDS -----//
+    if (user_input[0] == '\0') {
+        uart_puts("");
+    }
     int cmd = -1;
     static char cmds[][20] = {"brdrev", "cls", "scrsize", "setcolor"};
     // compare input
+    uart_puts(split_screen);
     for (int i = 0; i <= 3; i++) {
-        if (strcmp(temp_str, cmds[i])) {
+        if (str_check(user_input, cmds[i])) {
             cmd = i;
             break;
         }
@@ -97,44 +122,64 @@ int get_command(int m, int n, char args[][n]) {
         case 1:
             cls();
             break;
+        case 2:
+
+            if (strcmp(screen_type1, "-p") == 0 && strcmp(width, '\0') != 0 &&
+                strcmp(height, '\0') != 0) {
+                int w = convert(width);
+                int h = convert(height);
+                physical_framebf_init(w, h);
+            } else if (strcmp(screen_type1, "-v") == 0 &&
+                       strcmp(width, '\0') != 0 && strcmp(height, '\0') != 0) {
+                int w = convert(width);
+                int h = convert(height);
+                virtual_framebf_init(w, h);
+            } else if (strcmp(screen_type1, "-b") == 0 &&
+                       strcmp(width, '\0') != 0 && strcmp(height, '\0') != 0) {
+                int w = convert(width);
+                int h = convert(height);
+                virtual_framebf_init(w, h);
+            }
         case 3:
 
             if (strcmp(set_type1, "-t") == 0 && strcmp(color1, '\0') != 0) {
-                uart_puts(color1);
                 if (strcmp(set_type2, "-b") == 0 && strcmp(color2, '\0') != 0) {
                     set_text_color(color1);
                     set_background_color(color2);
                 }
                 set_text_color(color1);
-                break;
             } else if (strcmp(set_type1, "-b") == 0 &&
                        strcmp(color1, '\0') != 0) {
                 set_background_color(color1);
             }
             break;
 
-            // case 2:
-            // 	if (m != 3 && m != 4 && m != 7) {
-            // 		uart_puts("Invalid scrsize arguments. Please enter
-            // again!\n"); 		return -1; 	} else {
-            // set_scrsize(m, n, args);
-            // 	}
-            // 	break;
-
-            // case 3:
-            // 	if (m != 1 && m != 2) {
-            // 		uart_puts("Invalid help arguments. Please enter
-            // again!\n"); 		return -1; 	} else {
-            // print_help_msg(m, args[1]);
-            // 	}
-            // 	break;
-
         default:
             // if cmd == -1 => not found
             uart_puts("Invalid command. Please enter again!\n");
             break;
     }
-    return cmd;
+    // reset string arrays
+    for (int k = 0; k < 40; k++) {
+        // Reset string input
+        temp_str[k] = '\0';
+        user_input[k] = '\0';
+
+        // Reset strings for command setcolor
+        split_screen[k][k] = '\0';
+        set_color[k] = '\0';
+        set_type1[k] = '\0';
+        color1[k] = '\0';
+        set_type2[k] = '\0';
+        color2[k] = '\0';
+
+        // Reset strings for command scrsize
+        split_color[k][k] = '\0';
+        set_screen[k] = '\0';
+        screen_type1[k] = '\0';
+        width[k] = '\0';
+        height[k] = '\0';
+    }
 }
 void get_input(int m, int n, char args[][n],
                char *temp_str) {  // temp string to store the entire command) {
@@ -292,7 +337,28 @@ void set_background_color(char background[]) {
  * return 1: identical
  * return 0: different
  */
-int strcmp(char *str1, char *str2) {
+/**
+ * Comparing 2 strings.
+ */
+int strcmp(char *a, char *b) {
+    int flag = 0;
+    while (*a != '\0' && *b != '\0')  // while loop
+    {
+        for (int i = 0; i < sizeof(a); i++) {
+            if (*a != *b) {
+                flag = 1;
+            }
+            a++;
+            b++;
+        }
+    }
+    if (flag == 0) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+int str_check(char *str1, char *str2) {
     // compare length
     if (strlen(str1) != strlen(str2)) return 0;
 
@@ -322,4 +388,14 @@ void strcpy(char *src, char *dest) {
         *(dest++) = *(src++);
     }
     *dest = '\0';
+}
+/**
+ * Convert string char to int.
+ */
+int convert(char s[]) {
+    int i, n = 0;
+
+    for (i = 0; s[i] >= '0' && s[i] <= '9'; i++) n = 10 * n + (s[i] - '0');
+
+    return n;
 }

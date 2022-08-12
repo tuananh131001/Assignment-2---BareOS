@@ -1,5 +1,6 @@
-void get_input(int m, int n, char args[][n], char *temp_str);
-int get_command(int m, int n, char args[][n]);
+void get_input(int m, int n, char args[][n],
+                char *temp_str);
+void get_command(int m, int n, char args[][n]);
 
 void help_command();
 int strcmp(char *s1, char *s2);
@@ -11,7 +12,9 @@ void get_brdrev();
 void cls();
 void set_background_color(char background[]);
 void set_text_color(char text[]);
+int convert(char s[]);
 // Util
 int strlen(char *str);
 void split_function(char *user_input, char **split);
 void strcpy(char *src, char *dest);
+int str_check(char* str1, char* str2);
