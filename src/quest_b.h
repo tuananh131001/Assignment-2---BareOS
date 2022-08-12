@@ -15,3 +15,4 @@ void set_text_color(char text[]);
 int strlen(char *str);
 void split_function(char *user_input, char **split);
 void strcpy(char *src, char *dest);
+int str_check(char* str1, char* str2);
