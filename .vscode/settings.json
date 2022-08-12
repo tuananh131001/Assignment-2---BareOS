@@ -3,6 +3,7 @@
         "*.js": "javascriptreact",
         "string.h": "c",
         "stdlib.h": "c",
-        "mbox.h": "c"
+        "mbox.h": "c",
+        "gpio.h": "c"
     }
 }
