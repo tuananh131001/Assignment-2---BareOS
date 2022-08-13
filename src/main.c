@@ -8,7 +8,6 @@
 
 void main() {
     // set up serial console
-    char args[10][30];
     uart_init();
 
     // welcome
@@ -18,7 +17,7 @@ void main() {
     uart_puts("\n\n");
     // echo everything back
     while (1) {
-        get_command(10, 30, args);
+        get_command();
     }
 }
 

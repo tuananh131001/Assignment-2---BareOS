@@ -25,26 +25,29 @@ void help_command() {
         "Size\n");
 }
 
-int get_command(int m, int n, char args[][n]) {
-    char temp_str[40];          // temp string to store the entire command
-    char split_color[40][40];   // char array for storing color commands
-    char split_screen[40][40];  // char array for storing color commands
-
+void get_command() {
+    static int CHAR_LIMIT = 40;
+    char temp_str[CHAR_LIMIT];  // temp string to store the entire command
+    char split_color[CHAR_LIMIT]
+                    [CHAR_LIMIT];  // char array for storing color commands
+    char split_screen[CHAR_LIMIT]
+                     [CHAR_LIMIT];  // char array for storing color commands
     // Set Color Variables
-    char set_color[40];
-    char set_type1[40];
-    char color1[40];
-    char set_type2[40];
-    char color2[40];
+    char set_color[CHAR_LIMIT];
+    char set_type1[CHAR_LIMIT];
+    char color1[CHAR_LIMIT];
+    char set_type2[CHAR_LIMIT];
+    char color2[CHAR_LIMIT];
 
     // Set screen Variables
-    char set_screen[40];
-    char width[40];
-    char height[40];
-    char screen_type1[40];
+    char set_screen[CHAR_LIMIT];
+    char width[CHAR_LIMIT];
+    char height[CHAR_LIMIT];
+    char screen_type1[CHAR_LIMIT];
 
-    get_input(m, n, args, temp_str);
+    get_input(temp_str);
 
+    // Split the command into color and screen commands
     int y = 0;
     int z = 0;
     for (int x = 0; x <= sizeof(temp_str); x++) {
@@ -64,8 +67,6 @@ int get_command(int m, int n, char args[][n]) {
     strcpy(split_color[2], color1);
     strcpy(split_color[3], set_type2);
     strcpy(split_color[4], color2);
-    // uart_puts(color1);
-    // uart_puts(temp_str);
     int y1 = 0;
     int z1 = 0;
     for (int x1 = 0; x1 <= sizeof(temp_str); x1++) {
@@ -83,6 +84,7 @@ int get_command(int m, int n, char args[][n]) {
     strcpy(split_screen[1], screen_type1);
     strcpy(split_screen[2], width);
     strcpy(split_screen[3], height);
+    // End split
 
     int cmd = -1;
     static char cmds[][20] = {"brdrev", "cls", "scrsize", "setcolor", "help"};
@@ -144,88 +146,7 @@ int get_command(int m, int n, char args[][n]) {
             break;
         // Help
         case 4:
-            if (strcmp(temp_str, "help setcolor") == 0) {
-                uart_puts(
-                    "SETCOLOR\tSet text color, and/or background color of the "
-                    "	\n"
-                    "\t\tconsole to one of the following color: BLACK, RED, "
-                    "	\n"
-                    "\t\tGREEN, YELLOW, BLUE, PURPLE, CYAN, WHITE 	"
-                    "		\n"
-                    "\t\tExample: setcolor -b yellow");
-
-            } else if (strcmp(temp_str, "help cls") == 0) {
-                uart_puts(
-                    "CLS\t\tClear screen (the terminal will scroll down to "
-                    "current position of the cursor). \n"
-                    "\t\tExample: cls");
-
-            } else if (strcmp(temp_str, "help brdrev") == 0) {
-                uart_puts(
-                    "BRDREV\t\tShow board revision \n"
-                    "\t\tExample: brdrev \n");
-
-            } else if (strcmp(temp_str, "help scrsize") == 0) {
-                uart_puts(
-                    "SCRSIZE\t\tSet screen size 			"
-                    "	  \n"
-                    "\t\tMust have options to set physical screen size (-p)\n"
-                    "\t\tor virtual screen size (-v), or both (by default) \n"
-                    "\t\tExample: scrsize -p 1024 768 (set physical screen) \n"
-                    "\t\tscrsize -v 1024 768 (set virtual screen)\n"
-                    "\t\tscrsize -b 1024 768 (set both physical and virtual "
-                    "screens)\n");
-
-            } else if (strcmp(temp_str, "help armfreq") == 0) {
-                uart_puts(
-                    "ARMFREQ\t\tDisplay information of ARM frequency \n"
-                    "\t\tExample: armfreq \n");
-
-            } else if (strcmp(temp_str, "help uartfreq") == 0) {
-                uart_puts(
-                    "UARTFREQ\tDisplay information of UART frequency \n"
-                    "\t\tExample: uartfreq \n");
-
-            } else if (strcmp(temp_str, "help brdmodel") == 0) {
-                uart_puts(
-                    "BRDMODEL\tDisplay board model \n"
-                    "\t\tExample: brdmodel \n");
-
-            } else if (strcmp(temp_str, "help firmware") == 0) {
-                uart_puts(
-                    "FIRMWARE\tDisplay a version of current firmware \n"
-                    "\t\tExample: firmware \n");
-
-            } else {
-                uart_puts(
-                    "For more information on a specific command, type HELP "
-                    "command-name \n"
-                    "HELP\t\tShow brief information of all commands 	"
-                    "			  \n"
-                    "SETCOLOR\tSet text color, and/or background color 	 "
-                    "		  \n"
-                    "CLS\t\tClear screen				"
-                    "	"
-                    "					  \n"
-                    "BRDREV\t\tShow board revision			"
-                    "	"
-                    "					  \n"
-                    "SCRSIZE\t\tSet screen size 			"
-                    "	"
-                    "					  \n"
-                    "ARMFREQ\t\tDisplay ARM frequency 			"
-                    "				  \n"
-                    "UARTFREQ\tDisplay UART frequency 			"
-                    "				  \n"
-                    "BRDMODEL\tDisplay board model 			"
-                    "	"
-                    "			  \n"
-                    "FIRMWARE\tDisplay the current firmware		"
-                    "	"
-                    "			  \n"
-                    "DRAW\t\tDisplay a picture 				"
-                    "					  \n");
-            }
+            help_function(temp_str);
             break;
 
         default:
@@ -254,9 +175,7 @@ int get_command(int m, int n, char args[][n]) {
         height[k] = '\0';
     }
 }
-void get_input(int m, int n, char args[][n], char *temp_str) {
-    clear_args(m, n, args);
-
+void get_input(char *temp_str) {
     int i = 0;
     int total_char = 0;  // total number of char that was input
 
@@ -292,44 +211,91 @@ void get_input(int m, int n, char args[][n], char *temp_str) {
     uart_puts("\n");
 }
 
-// split input string into arguments
-int get_arguments(char *str, int m, int n, char args[][n]) {
-    int i = 0;              // index of arguments
-    int j = 0;              // index of character in argument string
-    char *input_str = str;  // pointer pointing to input string
-    int space_flag = 0;  // flag to check for space at the end of input string
-
-    // clear arguments
-    clear_args(m, n, args);
-
-    // check space at first indices
-    while (*input_str == ' ') {
-        input_str++;  // go to next character, continue checking if it is '
-    }
-    while (*input_str != '\0') {  // util end
-        if (*input_str != ' ') {
-            args[i][j] = *input_str;  // add character to argument string
-            space_flag = 0;           // reset space flag
-            j++;  // go to the next character in the current argument string
-        }
-
-        // if *p = ' ' and the last character is not space
-        if (*input_str == ' ' && !space_flag) {
-            space_flag = 1;  // set space flag
-            i++;             // go to the next argument
-            j = 0;  // reset to the first character in the next argument string
-        }
-
-        // Increment to the next character in input string
-        input_str++;
-    }
-    // if there are spaces at the end of input string, the number of arguments
-    // is
-    // i
-    return (space_flag == 0) ? (i + 1) : i;
-}
-
 // Utility
+void help_function(char *temp_str) {
+    if (strcmp(temp_str, "help setcolor") == 0) {
+        uart_puts(
+            "SETCOLOR\tSet text color, and/or background color of the "
+            "	\n"
+            "\t\tconsole to one of the following color: BLACK, RED, "
+            "	\n"
+            "\t\tGREEN, YELLOW, BLUE, PURPLE, CYAN, WHITE 	"
+            "		\n"
+            "\t\tExample: setcolor -b yellow");
+
+    } else if (strcmp(temp_str, "help cls") == 0) {
+        uart_puts(
+            "CLS\t\tClear screen (the terminal will scroll down to "
+            "current position of the cursor). \n"
+            "\t\tExample: cls");
+
+    } else if (strcmp(temp_str, "help brdrev") == 0) {
+        uart_puts(
+            "BRDREV\t\tShow board revision \n"
+            "\t\tExample: brdrev \n");
+
+    } else if (strcmp(temp_str, "help scrsize") == 0) {
+        uart_puts(
+            "SCRSIZE\t\tSet screen size 			"
+            "	  \n"
+            "\t\tMust have options to set physical screen size (-p)\n"
+            "\t\tor virtual screen size (-v), or both (by default) \n"
+            "\t\tExample: scrsize -p 1024 768 (set physical screen) \n"
+            "\t\tscrsize -v 1024 768 (set virtual screen)\n"
+            "\t\tscrsize -b 1024 768 (set both physical and virtual "
+            "screens)\n");
+
+    } else if (strcmp(temp_str, "help armfreq") == 0) {
+        uart_puts(
+            "ARMFREQ\t\tDisplay information of ARM frequency \n"
+            "\t\tExample: armfreq \n");
+
+    } else if (strcmp(temp_str, "help uartfreq") == 0) {
+        uart_puts(
+            "UARTFREQ\tDisplay information of UART frequency \n"
+            "\t\tExample: uartfreq \n");
+
+    } else if (strcmp(temp_str, "help brdmodel") == 0) {
+        uart_puts(
+            "BRDMODEL\tDisplay board model \n"
+            "\t\tExample: brdmodel \n");
+
+    } else if (strcmp(temp_str, "help firmware") == 0) {
+        uart_puts(
+            "FIRMWARE\tDisplay a version of current firmware \n"
+            "\t\tExample: firmware \n");
+
+    } else {
+        uart_puts(
+            "For more information on a specific command, type HELP "
+            "command-name \n"
+            "HELP\t\tShow brief information of all commands 	"
+            "			  \n"
+            "SETCOLOR\tSet text color, and/or background color 	 "
+            "		  \n"
+            "CLS\t\tClear screen				"
+            "	"
+            "					  \n"
+            "BRDREV\t\tShow board revision			"
+            "	"
+            "					  \n"
+            "SCRSIZE\t\tSet screen size 			"
+            "	"
+            "					  \n"
+            "ARMFREQ\t\tDisplay ARM frequency 			"
+            "				  \n"
+            "UARTFREQ\tDisplay UART frequency 			"
+            "				  \n"
+            "BRDMODEL\tDisplay board model 			"
+            "	"
+            "			  \n"
+            "FIRMWARE\tDisplay the current firmware		"
+            "	"
+            "			  \n"
+            "DRAW\t\tDisplay a picture 				"
+            "					  \n");
+    }
+}
 void get_brdrev() {
     mBuf[0] =
         8 *
@@ -417,13 +383,7 @@ int str_check(char *str1, char *str2) {
     }
     return 1;
 }
-void clear_args(int m, int n, char args[][n]) {
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            args[i][j] = '\0';
-        }
-    }
-}
+
 /**
  * String copy.
  */
