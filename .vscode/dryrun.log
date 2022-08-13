@@ -1,5 +1,6 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory `/Users/william/Documents/Coding/Embedd 3/Assignment 2 - BareOS'
+make.exe --dry-run --keep-going --print-directory
+make.exe: Entering directory `c:/Users/TA/Documents/Assignment-2---BareOS'
 qemu-system-aarch64 -M raspi3b -kernel kernel8.img -serial null -serial stdio
-make: Leaving directory `/Users/william/Documents/Coding/Embedd 3/Assignment 2 - BareOS'
+ 
+make.exe: Leaving directory `c:/Users/TA/Documents/Assignment-2---BareOS'
  

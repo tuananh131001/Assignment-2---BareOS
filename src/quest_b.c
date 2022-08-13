@@ -162,30 +162,26 @@ void get_command() {
         height[k] = '\0';
     }
 }
+// sds
+
 void get_input(char *temp_str) {
     int i = 0;
     int total_char = 0;  // total number of char that was input
-
+    static char cmds[][20] = {"brdrev",   "cls",       "scrsize", "setcolor",
+                              "help",     "clockrate", "macadr",  "draw",
+                              "brdmodel", "pxlclk"};
     uart_puts("\nTuanAnhOS> ");
     while (1) {
         char c = uart_getc();
-        if (c == 0 || c == 0xE0) c = uart_getc();
+        // arrows detection in input
+
+        // if (c == 0 || c == 0xE0) c = uart_getc();
         // if user presses ENTER, break the loop and execute a command
         if (c == 10) {
             uart_puts("\n");
             break;
-        }
-        // add each character into the string
-        else if (c == 72) {
-            uart_sendc("sir");
-
-        }
-
-        // add each character into the string
-        else if (c != 8) {
-            uart_sendc(c);
-            temp_str[total_char] = c;
-            total_char++;
+        } else if (c == 9) {
+            uart_puts("sir");
         }
         // add each character into the string
         else if (c != 8) {
@@ -196,7 +192,7 @@ void get_input(char *temp_str) {
 
         // delete each character when user press BackSpace each time
         // Use Ctrl + H on MacOS
-        else if (c == 8 && total_char > 0) {
+        else if ((c == 127 || c == 8) && total_char > 0) {
             uart_sendc(c);
             uart_sendc(32);
             uart_sendc(8);
@@ -208,6 +204,7 @@ void get_input(char *temp_str) {
     uart_puts(temp_str);
     uart_puts("\n");
 }
+// find string in string
 
 // Utility
 void help_function(char *temp_str) {
