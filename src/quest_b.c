@@ -68,7 +68,7 @@ void get_command() {
 
     int cmd = -1;
     static int TOTAL_CMD = 5;
-    static char cmds[][20] = {"brdrev",   "cls",     "scrsize", "setcolor",
+    static char cmds[][20] = {"brdrev",   "cls",       "scrsize", "setcolor",
                               "help",     "clockrate", "macadr",  "draw",
                               "brdmodel", "pxlclk"};
     // compare input
@@ -169,13 +169,24 @@ void get_input(char *temp_str) {
     uart_puts("\nTuanAnhOS> ");
     while (1) {
         char c = uart_getc();
-
+        if (c == 0 || c == 0xE0) c = uart_getc();
         // if user presses ENTER, break the loop and execute a command
         if (c == 10) {
             uart_puts("\n");
             break;
         }
+        // add each character into the string
+        else if (c == 72) {
+            uart_sendc("sir");
 
+        }
+
+        // add each character into the string
+        else if (c != 8) {
+            uart_sendc(c);
+            temp_str[total_char] = c;
+            total_char++;
+        }
         // add each character into the string
         else if (c != 8) {
             uart_sendc(c);
