@@ -1,14 +1,14 @@
-make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # GNU Make 3.81
 # Copyright (C) 2006  Free Software Foundation, Inc.
 # This is free software; see the source for copying conditions.
 # There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-# This program built for i386-pc-mingw32
+# This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Fri Aug 12 22:02:45 2022
+# Make data base, printed on Sat Aug 13 12:08:48 2022
 
 # Variables
 
@@ -16,184 +16,158 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
 ?F = $(notdir $?)
-# makefile
-MAKEFLAGS = Rrqp
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
-# environment
-HOMEDRIVE = C:
 # automatic
 @F = $(notdir $@)
-# automatic
-^D = $(patsubst %/,%,$(dir $^))
 # makefile
-CURDIR := c:/Users/TA/Documents/Assignment-2---BareOS
-# default
-SHELL := sh.exe
-# environment
-WINDIR = C:\Windows
+CURDIR := /Users/william/Documents/Coding/Embedd 3/Assignment 2 - BareOS
+# makefile
+SHELL = /bin/sh
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
-ONEDRIVE = C:\Users\TA\OneDrive
-# environment
-PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
-# makefile (from `makefile', line 1)
-MAKEFILE_LIST :=  makefile
-# environment
-FPS_BROWSER_USER_PROFILE_STRING = Default
-# environment
-TMP = C:\Users\TA\AppData\Local\Temp
-# makefile (from `makefile', line 8)
+_ = /usr/bin/make
+# makefile (from `Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# makefile (from `Makefile', line 8)
 GCCFLAGS = -Wall -O2 -ffreestanding -nostdinc -nostdlib
-# makefile (from `makefile', line 5)
+# makefile (from `Makefile', line 5)
 CFILES = $(wildcard $(SRC_DIR)/*.c)
 # environment
-PROGRAMW6432 = C:\Program Files
+__CFBundleIdentifier = com.microsoft.VSCode
 # environment
-PROGRAMDATA = C:\ProgramData
+INFOPATH = /opt/homebrew/share/info:
 # environment
-VSCODE_CWD = C:\Users\TA\AppData\Local\Programs\Microsoft VS Code
+VSCODE_CWD = /
 # environment
-PATH = C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Git\cmd;C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin;C:\Users\TA\AppData\Local\Microsoft\WindowsApps;E:\PyCharm 2022.1.4\bin;C:\Users\TA\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin;C:\Program Files (x86)\gcc-arm-10.3-2021.07-mingw-w64-i686-aarch64-none-elf\bin;C:\Program Files (x86)\GnuWin32\bin;C:\Program Files\qemu;C:\Users\TA\AppData\Local\gitkraken\bin
-# environment
-COMMONPROGRAMW6432 = C:\Program Files\Common Files
-# environment
-PROCESSOR_ARCHITECTURE = x86
-# environment
-USERPROFILE = C:\Users\TA
-# environment
-ALLUSERSPROFILE = C:\ProgramData
-# environment
-NUMBER_OF_PROCESSORS = 12
+PATH = /Users/william/opt/anaconda3/bin:/Users/william/opt/anaconda3/condabin:/Library/Frameworks/Python.framework/Versions/3.9/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
 # environment
 ELECTRON_RUN_AS_NODE = 1
-# makefile (from `makefile', line 9)
+# makefile (from `Makefile', line 9)
 LDFLAGS = -nostdlib
 # default
-.FEATURES := target-specific order-only second-expansion else-if archives
+.FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
+# environment
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.7b6DHMgSOe/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_19004_ICTUXKQUILENOZCE
+CONDA_EXE = /Users/william/opt/anaconda3/bin/conda
 # environment
-COMPUTERNAME = DESKTOP-VUVCBCM
+PWD = /Users/william/Documents/Coding/Embedd 3/Assignment 2 - BareOS
 # environment
-PROGRAMFILES = C:\Program Files (x86)
-# environment
-DRIVERDATA = C:\Windows\System32\Drivers\DriverData
+HOMEBREW_CELLAR = /opt/homebrew/Cellar
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # environment
-USERNAME = TA
-# environment
-PUBLIC = C:\Users\Public
+MANPATH = /opt/homebrew/share/man::
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\TA\AppData\Roaming\Code\CachedData\6d9b74a70ca9c7733b29f0456fd8195364076dda
+HOME = /Users/william
+# default
+MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
+# environment
+VSCODE_CODE_CACHE_PATH = /Users/william/Library/Application Support/Code/CachedData/6d9b74a70ca9c7733b29f0456fd8195364076dda
+# environment
+LOGNAME = william
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
-COMMONPROGRAMFILES = C:\Program Files (x86)\Common Files
-# environment
-LOGONSERVER = \\DESKTOP-VUVCBCM
+CONDA_PROMPT_MODIFIER = (base) 
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
 # environment
-USERDOMAIN = DESKTOP-VUVCBCM
+CONDA_DEFAULT_ENV = base
+# environment
+XPC_FLAGS = 0x0
 # default
 MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
-# makefile (from `makefile', line 2)
+# environment
+SHLVL = 1
+# makefile (from `Makefile', line 2)
 BUILD_DIR = ./object
 # default
 MAKE_VERSION := 3.81
+# environment
+USER = william
 # makefile
 .DEFAULT_GOAL := all
-# environment
-PROGRAMFILES(X86) = C:\Program Files (x86)
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
-LOCALAPPDATA = C:\Users\TA\AppData\Local
-# environment
-PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+CONDA_SHLVL = 1
 # default
-MAKE_COMMAND := make.exe
-# environment
-PROCESSOR_ARCHITEW6432 = AMD64
+MAKE_COMMAND := /Applications/Xcode.app/Contents/Developer/usr/bin/make
 # default
 .VARIABLES := 
+# environment
+TMPDIR = /var/folders/6f/ytn0jprj4_gc65nh907wz5r40000gn/T/
 # automatic
 *F = $(notdir $*)
 # environment
-PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 165 Stepping 3, GenuineIntel
+VSCODE_IPC_HOOK = /Users/william/Library/Application Support/Code/1.70.1-main.sock
 # environment
-OS = Windows_NT
-# environment
-VSCODE_IPC_HOOK = \\.\pipe\6d8abdafa80365805ead99060398f090-1.70.1-main-sock
-# environment
-HOMEPATH = \Users\TA
-# environment
-COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
-# environment
-PROMPT = $P$G
+MallocNanoZone = 0
+# makefile
+MAKEFLAGS = Rrqp
 # environment
 MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-SYSTEMROOT = C:\Windows
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.14969816.14969822
+# environment
+HOMEBREW_PREFIX = /opt/homebrew
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # automatic
 +F = $(notdir $+)
 # environment
-APPDATA = C:\Users\TA\AppData\Roaming
+HOMEBREW_REPOSITORY = /opt/homebrew
 # environment
-TEMP = C:\Users\TA\AppData\Local\Temp
+__CF_USER_TEXT_ENCODING = 0x1F5:0x0:0x0
 # environment
-COMSPEC = C:\Windows\system32\cmd.exe
+COMMAND_MODE = unix2003
 # default
 MAKEFILES := 
-# makefile (from `makefile', line 3)
+# makefile (from `Makefile', line 3)
 SRC_DIR = ./src
 # automatic
 <F = $(notdir $<)
 # environment
 LC_ALL = C
+# environment
+CONDA_PYTHON_EXE = /Users/william/opt/anaconda3/bin/python
 # automatic
 ^F = $(notdir $^)
 # default
 SUFFIXES := 
 # environment
-SYSTEMDRIVE = C:
-# environment
-SESSIONNAME = Console
-# environment
-PROCESSOR_REVISION = a503
-# environment
-PYCHARM = E:\PyCharm 2022.1.4\bin;
-# makefile (from `makefile', line 6)
+_CE_M = 
+# default
+.INCLUDE_DIRS = /usr/local/include
+# makefile (from `Makefile', line 6)
 OFILES = $(CFILES:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 # environment
 MAKELEVEL := 0
 # environment
+CONDA_PREFIX = /Users/william/opt/anaconda3
+# environment
+VSCODE_PID = 14328
+# environment
+_CE_CONDA = 
+# environment
 LANG = C
-# environment
-PROCESSOR_LEVEL = 6
-# environment
-FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
-# environment
-VSCODE_PID = 19004
-# environment
-USERDOMAIN_ROAMINGPROFILE = DESKTOP-VUVCBCM
 # variable set hash-table stats:
-# Load=90/1024=9%, Rehash=0, Collisions=9/122=7%
+# Load=77/1024=8%, Rehash=0, Collisions=2/113=2%
 
 # Pattern-specific Variable Values
 
@@ -201,34 +175,16 @@ USERDOMAIN_ROAMINGPROFILE = DESKTOP-VUVCBCM
 
 # Directories
 
-# C:\Users\TA\AppData\Local\Microsoft\WindowsApps (key C:/Users/TA/AppData/Local/Microsoft/WindowsApps, mtime 1659626908): 11 files, no impossibilities.
-# C:\Users\TA\AppData\Local\gitkraken\bin (key C:/Users/TA/AppData/Local/gitkraken/bin, mtime 1660199128): 3 files, no impossibilities.
-# C:\Program Files\qemu (key C:/Program Files/qemu, mtime 1660194902): 161 files, no impossibilities.
-# C:\Windows\System32\WindowsPowerShell\v1.0\ (key C:/Windows/System32/WindowsPowerShell/v1.0/, mtime 1633528630): 30 files, no impossibilities.
-# C:\Windows\System32\Wbem (key C:/Windows/System32/Wbem, mtime 1660157987): 169 files, no impossibilities.
-# . (key c:/Users/TA/Documents/Assignment-2---BareOS, mtime 1660316385): 10 files, no impossibilities.
-# C:\Program Files (x86)\gcc-arm-10.3-2021.07-mingw-w64-i686-aarch64-none-elf\bin (key C:/Program Files (x86)/gcc-arm-10.3-2021.07-mingw-w64-i686-aarch64-none-elf/bin, mtime 1660109228): 33 files, no impossibilities.
-# C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common (key C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common, mtime 1657433843): 10 files, no impossibilities.
-# E:\PyCharm 2022.1.4\bin (key E:/PyCharm 2022.1.4/bin, mtime 1659168922): 28 files, no impossibilities.
-# C:\Program Files (x86)\GNU Arm Embedded Toolchain\1 
-0 2021.10\bin (key C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin, mtime 1660103553): 35 files, no impossibilities.
-# ./src (key c:/Users/TA/Documents/Assignment-2---BareOS/src, mtime 1660313175): 17 files, no impossibilities.
-# C:\Windows\System32\OpenSSH\: could not be stat'd.
-# C:\Windows (key C:/Windows, mtime 1660157987): 116 files, no impossibilities.
-# C:\Users\TA\AppData\Local\Programs\Microsoft VS Code\bin (key C:/Users/TA/AppData/Local/Programs/Microsoft VS Code/bin, mtime 1660191834): 4 files, no impossibilities.
-# src (key c:/Users/TA/Documents/Assignment-2---BareOS/src, mtime 1660313175): 17 files, no impossibilities.
-# C:\Program Files\Git\cmd (key C:/Program Files/Git/cmd, mtime 1658908844): 8 files, no impossibilities.
-# C:\Windows\system32 (key C:/Windows/system32, mtime 1660271098): 2985 files, no impossibilities.
-# C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR (key C:/Program Files/NVIDIA Corporation/NVIDIA NvDLISR, mtime 1657439630): 5 files, no impossibilities.
-# C: 
-\Program Files (x86)\GnuWin32\bin (key C:/Program Files (x86)/GnuWin32/bin, mtime 1660112905): 5 files, no impossibilities.
+# . (device 16777234, inode 14903193): 10 files, no impossibilities.
+# ./src (device 16777234, inode 14903282): 17 files, no impossibilities.
+# src (device 16777234, inode 14903282): 17 files, no impossibilities.
 
-# 3647 files, no impossibilities in 19 directories.
+# 44 files, no impossibilities in 3 directories.
 
 # Implicit Rules
 
 object/%.o: ./src/%.c
-#  commands to execute (from `makefile', line 17):
+#  commands to execute (from `Makefile', line 17):
 	aarch64-none-elf-gcc $(CFLAGS) -c $< -o $@
 	
 
@@ -239,22 +195,21 @@ object/%.o: ./src/%.c
 # Not a target:
 src/quest_b.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-12 21:59:33
+#  Last modified 2022-08-12 22:21:36
 #  File has been updated.
-#  Successfull 
-y updated.
+#  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 object/uart.o: src/uart.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `uart'
-#  Last modified 2022-08-12 11:35:52
+#  Last modified 2022-08-12 10:58:05
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 17):
+#  commands to execute (from `Makefile', line 17):
 	aarch64-none-elf-gcc $(CFLAGS) -c $< -o $@
 	
 
@@ -269,38 +224,37 @@ all: kernel8.img run
 
 object/boot.o: src/boot.S
 #  Implicit rule search has not been done.
-#  Last modified 2022-08-11 13:01:53
+#  Last modified 2022-08-11 10:54:04
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 14):
+#  commands to execute (from `Makefile', line 14):
 	aarch64-none-elf-gcc $(GCCFLAGS) -c $< -o $@
 	
-
-# Not a target:
-.DEFAULT:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
 
 object/quest_a.o: src/quest_a.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `quest_a'
-#  Last modified 2022-08-11 13:01:53
+#  Last modified 2022-08-11 21:19:42
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 17):
-	aarch64-none-elf-gcc $(CFLAGS) 
- -c $< -o $@
+#  commands to execute (from `Makefile', line 17):
+	aarch64-none-elf-gcc $(CFLAGS) -c $< -o $@
 	
 
 # Not a target:
-src/framebf.c:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-12 21:51:13
+#  Last modified 2022-08-11 21:19:42
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -312,9 +266,9 @@ test: all run
 #  File has not been updated.
 
 # Not a target:
-makefile:
+src/framebf.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 12:41:37
+#  Last modified 2022-08-12 22:21:36
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -323,47 +277,47 @@ makefile:
 object/mbox.o: src/mbox.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `mbox'
-#  Last modified 2022-08-11 13:01:53
+#  Last modified 2022-08-12 22:21:36
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 17):
+#  commands to execute (from `Makefile', line 17):
 	aarch64-none-elf-gcc $(CFLAGS) -c $< -o $@
 	
 
 object/quest_b.o: src/quest_b.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `quest_b'
-#  Last modified 2022-08-12 21:59:45
+#  Last modified 2022-08-12 22:21:36
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 17):
+#  commands to execute (from `Makefile', line 17):
 	aarch64-none-elf-gcc $(CFLAGS) -c $< -o $@
 	
 
 # Not a target:
 src/main.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-12 21:06:15
+#  Last modified 2022-08-11 21:19:42
 #  File has been updated.
 #  Successfully updated.
-# variable set hash-table sta 
-ts:
+# variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # Not a target:
-.SUFFIXES:
+.DEFAULT:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
+ 
 #  File has not been updated.
 
 # Not a target:
 src/uart.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-12 11:35:52
+#  Last modified 2022-08-12 10:57:28
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -393,19 +347,19 @@ run:
 # ? := 
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/10=10%
-#  commands to execute (from `makefile', line 27):
+#  commands to execute (from `Makefile', line 27):
 	qemu-system-aarch64 -M raspi3b -kernel kernel8.img -serial null -serial stdio
 	
 
 object/framebf.o: src/framebf.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `framebf'
-#  Last modified 2022-08-12 21:51:30
+#  Last modified 2022-08-12 22:21:36
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 17):
+#  commands to execute (from `Makefile', line 17):
 	aarch64-none-elf-gcc $(CFLAGS) -c $< -o $@
 	
 
@@ -413,15 +367,14 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `makefile', line 24):
-	rm -f *.img $(BUILD_DIR)/k 
-ernel8.elf $(BUILD_DIR)/*.o
+#  commands to execute (from `Makefile', line 24):
+	rm -f *.img $(BUILD_DIR)/kernel8.elf $(BUILD_DIR)/*.o
 	
 
 # Not a target:
 src/boot.S:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 11:25:32
+#  Last modified 2022-07-19 11:55:31
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -430,7 +383,7 @@ src/boot.S:
 # Not a target:
 src/quest_a.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 11:25:32
+#  Last modified 2022-08-08 20:30:42
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -438,41 +391,39 @@ src/quest_a.c:
 
 kernel8.img: object/boot.o object/framebf.o object/main.o object/mbox.o object/quest_a.o object/quest_b.o object/uart.o
 #  Implicit rule search has not been done.
-#  Last modified 2022-08-12 21:59:45
+#  Last modified 2022-08-12 22:21:36
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 20):
+#  commands to execute (from `Makefile', line 20):
 	aarch64-none-elf-ld $(LDFLAGS) $(BUILD_DIR)/boot.o $(OFILES) -T $(SRC_DIR)/link.ld -o $(BUILD_DIR)/kernel8.elf
-	aarch64-none-elf-objcopy -O bina 
-ry $(BUILD_DIR)/kernel8.elf kernel8.img
+	aarch64-none-elf-objcopy -O binary $(BUILD_DIR)/kernel8.elf kernel8.img
 	
 
 object/main.o: src/main.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `main'
-#  Last modified 2022-08-12 21:06:15
+#  Last modified 2022-08-11 21:19:42
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 17):
+#  commands to execute (from `Makefile', line 17):
 	aarch64-none-elf-gcc $(CFLAGS) -c $< -o $@
 	
 
 # Not a target:
 src/mbox.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 11:25: 
-32
+#  Last modified 2022-08-12 22:21:36
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # files hash-table stats:
-# Load=22/1024=2%, Rehash=0, Collisions=0/65=0%
+# Load=22/1024=2%, Rehash=0, Collisions=3/66=5%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -484,6 +435,6 @@ src/mbox.c:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Fri Aug 12 22:02:45 2022
+# Finished Make data base on Sat Aug 13 12:08:48 2022
 
  

@@ -85,7 +85,7 @@ int get_command(int m, int n, char args[][n]) {
     strcpy(split_screen[3], height);
 
     int cmd = -1;
-    static char cmds[][20] = {"brdrev", "cls", "scrsize", "setcolor"};
+    static char cmds[][20] = {"brdrev", "cls", "scrsize", "setcolor", "help"};
     // compare input
     for (int i = 0; i <= 4; i++) {
         // set_color reuse only take the first argument
@@ -99,9 +99,11 @@ int get_command(int m, int n, char args[][n]) {
         case 0:
             get_brdrev();
             break;
+        // clear screen
         case 1:
             cls();
             break;
+        // Set Screen
         case 2:
             // command 5: scrsize <options>
             if (strcmp(screen_type1, "-p") == 0 && strcmp(width, '\0') != 0 &&
@@ -125,6 +127,7 @@ int get_command(int m, int n, char args[][n]) {
                 default_framebf_init(w, h);
             }
             break;
+        // Setcolor
         case 3:
             if (strcmp(set_type1, "-t") == 0 && strcmp(color1, '\0') != 0) {
                 uart_puts(color1);
@@ -137,6 +140,91 @@ int get_command(int m, int n, char args[][n]) {
             } else if (strcmp(set_type1, "-b") == 0 &&
                        strcmp(color1, '\0') != 0) {
                 set_background_color(color1);
+            }
+            break;
+        // Help
+        case 4:
+            if (strcmp(temp_str, "help setcolor") == 0) {
+                uart_puts(
+                    "SETCOLOR\tSet text color, and/or background color of the "
+                    "	\n"
+                    "\t\tconsole to one of the following color: BLACK, RED, "
+                    "	\n"
+                    "\t\tGREEN, YELLOW, BLUE, PURPLE, CYAN, WHITE 	"
+                    "		\n"
+                    "\t\tExample: setcolor -b yellow");
+
+            } else if (strcmp(temp_str, "help cls") == 0) {
+                uart_puts(
+                    "CLS\t\tClear screen (the terminal will scroll down to "
+                    "current position of the cursor). \n"
+                    "\t\tExample: cls");
+
+            } else if (strcmp(temp_str, "help brdrev") == 0) {
+                uart_puts(
+                    "BRDREV\t\tShow board revision \n"
+                    "\t\tExample: brdrev \n");
+
+            } else if (strcmp(temp_str, "help scrsize") == 0) {
+                uart_puts(
+                    "SCRSIZE\t\tSet screen size 			"
+                    "	  \n"
+                    "\t\tMust have options to set physical screen size (-p)\n"
+                    "\t\tor virtual screen size (-v), or both (by default) \n"
+                    "\t\tExample: scrsize -p 1024 768 (set physical screen) \n"
+                    "\t\tscrsize -v 1024 768 (set virtual screen)\n"
+                    "\t\tscrsize -b 1024 768 (set both physical and virtual "
+                    "screens)\n");
+
+            } else if (strcmp(temp_str, "help armfreq") == 0) {
+                uart_puts(
+                    "ARMFREQ\t\tDisplay information of ARM frequency \n"
+                    "\t\tExample: armfreq \n");
+
+            } else if (strcmp(temp_str, "help uartfreq") == 0) {
+                uart_puts(
+                    "UARTFREQ\tDisplay information of UART frequency \n"
+                    "\t\tExample: uartfreq \n");
+
+            } else if (strcmp(temp_str, "help brdmodel") == 0) {
+                uart_puts(
+                    "BRDMODEL\tDisplay board model \n"
+                    "\t\tExample: brdmodel \n");
+
+            } else if (strcmp(temp_str, "help firmware") == 0) {
+                uart_puts(
+                    "FIRMWARE\tDisplay a version of current firmware \n"
+                    "\t\tExample: firmware \n");
+
+            } else {
+                uart_puts(
+                    "For more information on a specific command, type HELP "
+                    "command-name \n"
+                    "HELP\t\tShow brief information of all commands 	"
+                    "			  \n"
+                    "SETCOLOR\tSet text color, and/or background color 	 "
+                    "		  \n"
+                    "CLS\t\tClear screen				"
+                    "	"
+                    "					  \n"
+                    "BRDREV\t\tShow board revision			"
+                    "	"
+                    "					  \n"
+                    "SCRSIZE\t\tSet screen size 			"
+                    "	"
+                    "					  \n"
+                    "ARMFREQ\t\tDisplay ARM frequency 			"
+                    "				  \n"
+                    "UARTFREQ\tDisplay UART frequency 			"
+                    "				  \n"
+                    "BRDMODEL\tDisplay board model 			"
+                    "	"
+                    "			  \n"
+                    "FIRMWARE\tDisplay the current firmware		"
+                    "	"
+                    "			  \n"
+                    "DRAW\t\tDisplay a picture 				"
+                    "					  \n");
             }
             break;
 
@@ -166,18 +254,14 @@ int get_command(int m, int n, char args[][n]) {
         height[k] = '\0';
     }
 }
-void get_input(int m, int n, char args[][n],
-               char *temp_str) {  // temp string to store the entire command) {
-    // clear arguments
+void get_input(int m, int n, char args[][n], char *temp_str) {
     clear_args(m, n, args);
 
-    int i = 0;  // index of string
-    // variables to make sure backspace wouldn't delete the enter input message
+    int i = 0;
     int total_char = 0;  // total number of char that was input
 
     uart_puts("\nTuanAnhOS> ");
     while (1) {
-        // read each char
         char c = uart_getc();
 
         // if user presses ENTER, break the loop and execute a command
@@ -200,8 +284,7 @@ void get_input(int m, int n, char args[][n],
             uart_sendc(32);
             uart_sendc(8);
             total_char--;
-            temp_str[total_char] = 0;  // make the element at that index in the
-                                       // string to be whitespace
+            temp_str[total_char] = 0;
         }
     }
     uart_puts("Execute command: ");
@@ -266,7 +349,6 @@ void get_brdrev() {
     } else {
         uart_puts("Unable to query!\n");
     }
-    
 }
 // Utility
 void cls() { uart_puts("\033[H\033[J"); }
