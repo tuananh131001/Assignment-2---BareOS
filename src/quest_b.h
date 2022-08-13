@@ -12,6 +12,7 @@ void cls();
 void set_background_color(char background[]);
 void set_text_color(char text[]);
 void get_clock_rate();
+int compare_str(char *str, char *substr);
 // Util
 int strlen(char *str);
 void split_function(char *user_input, char **split);

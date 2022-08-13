@@ -180,8 +180,21 @@ void get_input(char *temp_str) {
         if (c == 10) {
             uart_puts("\n");
             break;
+
         } else if (c == 9) {
-            uart_puts("sir");
+            // if user press tab, auto complete the command
+            int length = strlen(temp_str);
+            for (int i = 0; i <= 10; i++) {
+                if (compare_str(cmds[i], temp_str) &&
+                    length < strlen(cmds[i])) {
+                    // print the rest command
+                    for (int j = length; j <= str_len(cmds[i]); j++) {
+                        uart_sendc(cmds[i][j]);
+                        temp_str[j] = cmds[i][j];
+                    }
+                }
+            }
+
         }
         // add each character into the string
         else if (c != 8) {
@@ -192,7 +205,7 @@ void get_input(char *temp_str) {
 
         // delete each character when user press BackSpace each time
         // Use Ctrl + H on MacOS
-        else if ((c == 127 || c == 8) && total_char > 0) {
+        else if ((c == 127 || c == 8 || c == 51) && total_char > 0) {
             uart_sendc(c);
             uart_sendc(32);
             uart_sendc(8);
@@ -204,7 +217,29 @@ void get_input(char *temp_str) {
     uart_puts(temp_str);
     uart_puts("\n");
 }
-// find string in string
+// return length of string
+int str_len(char *str) {
+    int i = 0;
+    while (str[i] != '\0') {
+        i++;
+    }
+    return i;
+}
+// find substring in string in sequence then return rest of the string
+int compare_str(char *str, char *substr) {
+    int i = 0;
+    int j = 0;
+    while (substr[i] != '\0') {
+        if (str[i] == substr[j]) {
+            i++;
+            j++;
+        } else {
+            return 0;
+        }
+    }
+
+    return 1;
+}
 
 // Utility
 void help_function(char *temp_str) {
