@@ -13,7 +13,6 @@ void main() {
     // welcome
     print_welcome();
 
-    help_command();
     uart_puts("\n\n");
     // echo everything back
     while (1) {

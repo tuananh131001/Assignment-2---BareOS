@@ -5,8 +5,8 @@ SRC_DIR = ./src
 CFILES = $(wildcard $(SRC_DIR)/*.c)
 OFILES = $(CFILES:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 
-GCCFLAGS = -Wall -O2 -ffreestanding -nostdinc -nostdlib
-LDFLAGS = -nostdlib
+GCCFLAGS = -Wall -O2 -ffreestanding -nostdinc -nostdlib -nostartfiles
+LDFLAGS = -nostdlib -nostartfiles
 
 all: kernel8.img run
 

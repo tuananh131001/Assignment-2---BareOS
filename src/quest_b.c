@@ -3,28 +3,6 @@
 #include "mbox.h"
 #include "uart.h"
 
-void help_command() {
-    uart_puts(
-        "For more information on specific command type 'help <command>'\n");
-    uart_puts("\n");
-    uart_puts(
-        "setcolor                                             Set  text  "
-        "color,  "
-        "and/or  background  color  of  the console\n");
-    uart_puts("\n");
-    uart_puts(
-        "cls                                                  Clear  the  "
-        "console.\n");
-    uart_puts("\n");
-    uart_puts(
-        "brdrev                                               Show board "
-        "revision.\n");
-    uart_puts("\n");
-    uart_puts(
-        "scrsize <options>                                    Set Screen "
-        "Size\n");
-}
-
 void get_command() {
     static int CHAR_LIMIT = 40;
     char temp_str[CHAR_LIMIT];  // temp string to store the entire command
@@ -47,7 +25,7 @@ void get_command() {
 
     get_input(temp_str);
 
-    // Split the command into color and screen commands
+    // Split the command into color  commands
     int y = 0;
     int z = 0;
     for (int x = 0; x <= sizeof(temp_str); x++) {
@@ -67,6 +45,8 @@ void get_command() {
     strcpy(split_color[2], color1);
     strcpy(split_color[3], set_type2);
     strcpy(split_color[4], color2);
+
+    // Split the command into screen commands
     int y1 = 0;
     int z1 = 0;
     for (int x1 = 0; x1 <= sizeof(temp_str); x1++) {
@@ -87,9 +67,12 @@ void get_command() {
     // End split
 
     int cmd = -1;
-    static char cmds[][20] = {"brdrev", "cls", "scrsize", "setcolor", "help"};
+    static int TOTAL_CMD = 5;
+    static char cmds[][20] = {"brdrev",   "cls",     "scrsize", "setcolor",
+                              "help",     "clockrate", "macadr",  "draw",
+                              "brdmodel", "pxlclk"};
     // compare input
-    for (int i = 0; i <= 4; i++) {
+    for (int i = 0; i <= TOTAL_CMD; i++) {
         // set_color reuse only take the first argument
         if (str_check(set_color, cmds[i])) {
             cmd = i;
@@ -147,6 +130,10 @@ void get_command() {
         // Help
         case 4:
             help_function(temp_str);
+            break;
+            // clockrate
+        case 5:
+            get_clock_rate();
             break;
 
         default:
@@ -245,9 +232,9 @@ void help_function(char *temp_str) {
             "\t\tscrsize -b 1024 768 (set both physical and virtual "
             "screens)\n");
 
-    } else if (strcmp(temp_str, "help armfreq") == 0) {
+    } else if (strcmp(temp_str, "help clockrate") == 0) {
         uart_puts(
-            "ARMFREQ\t\tDisplay information of ARM frequency \n"
+            "CLOCKRATE\t\tDisplay information of clock rate \n"
             "\t\tExample: armfreq \n");
 
     } else if (strcmp(temp_str, "help uartfreq") == 0) {
@@ -282,17 +269,20 @@ void help_function(char *temp_str) {
             "SCRSIZE\t\tSet screen size 			"
             "	"
             "					  \n"
+            //"brdrev", "cls", "scrsize", "setcolor",
+            //"help","armfreq","macadr","draw","brdmodel","pxlclk"
             "ARMFREQ\t\tDisplay ARM frequency 			"
             "				  \n"
-            "UARTFREQ\tDisplay UART frequency 			"
+            "MACADR\t\tShow MAC address			"
             "				  \n"
-            "BRDMODEL\tDisplay board model 			"
+            "DRAW\t\tDraw an circle on the screen 			"
             "	"
             "			  \n"
-            "FIRMWARE\tDisplay the current firmware		"
+            "BRDMODEL\tShow board model		"
             "	"
             "			  \n"
-            "DRAW\t\tDisplay a picture 				"
+            "PXLCLK\t\tShow clock frequency of pixel clock	 	"
+            "			"
             "					  \n");
     }
 }
@@ -314,6 +304,27 @@ void get_brdrev() {
         uart_hex(mBuf[5]);
     } else {
         uart_puts("Unable to query!\n");
+    }
+}
+void get_clock_rate() {
+    // mailbox data buffer: Read ARM frequency
+    mBuf[0] =
+        8 *
+        4;  // Message Buffer Size in bytes (8 elements * 4 bytes (32 bit) each)
+    mBuf[1] = MBOX_REQUEST;  // Message Request Code (this is a request message)
+    mBuf[2] = 0x00030002;    // TAG Identifier: Get clock rate
+    mBuf[3] = 8;             // Reponse length
+    mBuf[4] = 0;             // REQUEST CODE = 0
+    mBuf[5] = 0x000000003;   // clock id
+    mBuf[6] = 0;             // clear output buffer for board revision
+    mBuf[7] = MBOX_TAG_LAST;
+
+    if (mbox_call(ADDR(mBuf), MBOX_CH_PROP)) {
+        uart_puts("\nARM clock rate = ");
+        uart_dec(mBuf[6]);
+        uart_puts("\n");
+    } else {
+        uart_puts("\nUnable to get ARM clock rate!\n");
     }
 }
 // Utility
