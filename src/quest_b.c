@@ -205,7 +205,7 @@ void get_input(char *temp_str) {
 
         // delete each character when user press BackSpace each time
         // Use Ctrl + H on MacOS
-        else if ((c == 127 || c == 8 || c == 51) && total_char > 0) {
+        else if ((c == 127 || c == 8 || c == 51) && total_char > 0) {   
             uart_sendc(c);
             uart_sendc(32);
             uart_sendc(8);
@@ -330,24 +330,24 @@ void help_function(char *temp_str) {
     }
 }
 void get_brdrev() {
-    mBuf[0] =
-        8 *
-        4;  // Message Buffer Size in bytes (9 elements * 4 bytes (32 bit) each)
-    mBuf[1] = MBOX_REQUEST;  // Message Request Code (this is a request message)
+            mBuf[0] =
+                8 *
+                4;  // Message Buffer Size in bytes (9 elements * 4 bytes (32 bit) each)
+            mBuf[1] = MBOX_REQUEST;  // Message Request Code (this is a request message)
 
-    mBuf[2] = 0x00010002;  // TAG Identifier: Get clock rate
-    mBuf[3] =
-        4;  // Value buffer size in bytes (max of request and response lengths)
-    mBuf[4] = 0;  // REQUEST CODE = 0
-    mBuf[5] = 0;  // clear output buffer
-    mBuf[6] = MBOX_TAG_LAST;
+            mBuf[2] = 0x00010002;  // TAG Identifier: Get clock rate
+            mBuf[3] =
+                4;  // Value buffer size in bytes (max of request and response lengths)
+            mBuf[4] = 0;  // REQUEST CODE = 0
+            mBuf[5] = 0;  // clear output buffer
+            mBuf[6] = MBOX_TAG_LAST;
 
-    if (mbox_call(ADDR(mBuf), MBOX_CH_PROP)) {
-        uart_puts("Board revision: ");
-        uart_hex(mBuf[5]);
-    } else {
-        uart_puts("Unable to query!\n");
-    }
+            if (mbox_call(ADDR(mBuf), MBOX_CH_PROP)) {
+                uart_puts("Board revision: ");
+                uart_hex(mBuf[5]);
+            } else {
+                uart_puts("Unable to query!\n");
+            }
 }
 void get_clock_rate() {
     // mailbox data buffer: Read ARM frequency
