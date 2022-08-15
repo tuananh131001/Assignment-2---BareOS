@@ -12,11 +12,20 @@ void main() {
 
     // welcome
     print_welcome();
-    printf("Characters: %c %c \n", 'a', 65);
-    printf("Decimals: %d %ld\n", 1977, 650000L);
-    printf("negative float : %f \n", -1.0);
 
     uart_puts("\n\n");
+
+    printf("Decimals: %d\n", 1977);
+    printf("Characters: %c  \n", 'a');
+    printf("negative float : %f \n", 2.0);
+    printf("Hex :%x \n", 100);
+
+    // printf("Octal :%o \n", 100);
+    // printf("Percent : %% \n");
+    // printf("String: %s\n", "string");
+
+
+
     // echo everything back
     while (1) {
         get_command();

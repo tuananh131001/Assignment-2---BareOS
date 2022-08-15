@@ -4,7 +4,7 @@
 
 #define MAX_PRINT_SIZE 256
 
-void printf(char *string, ...) {
+void printf(char* string, ...) {
     va_list ap;
     va_start(ap, string);
 
@@ -37,11 +37,24 @@ void printf(char *string, ...) {
             }
 
             else if (*string == 's') {
+                // string++;
+                // char *s = va_arg(ap, char *);
+                // while (*s != '\0') {
+                //     buffer[buffer_index] = *s++;
+                //     buffer_index++;
+                // }
                 string++;
+                char* x = va_arg(ap, char*);
+                int temp_index = 0;
 
-                char *s = va_arg(ap, char *);
-                while (*s != '\0') {
-                    buffer[buffer_index] = *s++;
+                do {
+                    temp_buffer[temp_index] = *x;
+                    temp_index++;
+                    x++;
+                } while (*x != 0);
+
+                for (int i = 0; i < MAX_PRINT_SIZE; i++) {
+                    buffer[buffer_index] = temp_buffer[i];
                     buffer_index++;
                 }
             }
