@@ -17,7 +17,7 @@ void main() {
 
     printf("Decimals: %d\n", 1977);
     printf("Characters: %c  \n", 'a');
-    printf("negative float : %f \n", 2.0);
+    printf("float : %f \n", 2.0);
     printf("Hex :%x \n", 100);
 
     // printf("Octal :%o \n", 100);
