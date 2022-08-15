@@ -13,6 +13,10 @@ void set_background_color(char background[]);
 void set_text_color(char text[]);
 void get_clock_rate();
 int compare_str(char *str, char *substr);
+void get_mac_addr();
+void draw();
+void get_board_model();
+void get_pixel_clock();
 // Util
 int strlen(char *str);
 void split_function(char *user_input, char **split);

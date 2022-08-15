@@ -135,6 +135,19 @@ void get_command() {
         case 5:
             get_clock_rate();
             break;
+            // clockrate
+        case 6:
+            get_mac_addr();
+            break;
+        case 7:
+            draw();
+            break;
+        case 8:
+            get_board_model();
+            break;
+        case 9:
+            get_pixel_clock();
+            break;
 
         default:
             // if cmd == -1 => not found
@@ -205,7 +218,7 @@ void get_input(char *temp_str) {
 
         // delete each character when user press BackSpace each time
         // Use Ctrl + H on MacOS
-        else if ((c == 127 || c == 8 || c == 51) && total_char > 0) {   
+        else if ((c == 127 || c == 8 || c == 51) && total_char > 0) {
             uart_sendc(c);
             uart_sendc(32);
             uart_sendc(8);
@@ -330,24 +343,24 @@ void help_function(char *temp_str) {
     }
 }
 void get_brdrev() {
-            mBuf[0] =
-                8 *
-                4;  // Message Buffer Size in bytes (9 elements * 4 bytes (32 bit) each)
-            mBuf[1] = MBOX_REQUEST;  // Message Request Code (this is a request message)
+    mBuf[0] =
+        8 *
+        4;  // Message Buffer Size in bytes (9 elements * 4 bytes (32 bit) each)
+    mBuf[1] = MBOX_REQUEST;  // Message Request Code (this is a request message)
 
-            mBuf[2] = 0x00010002;  // TAG Identifier: Get clock rate
-            mBuf[3] =
-                4;  // Value buffer size in bytes (max of request and response lengths)
-            mBuf[4] = 0;  // REQUEST CODE = 0
-            mBuf[5] = 0;  // clear output buffer
-            mBuf[6] = MBOX_TAG_LAST;
+    mBuf[2] = 0x00010002;  // TAG Identifier: Get clock rate
+    mBuf[3] =
+        4;  // Value buffer size in bytes (max of request and response lengths)
+    mBuf[4] = 0;  // REQUEST CODE = 0
+    mBuf[5] = 0;  // clear output buffer
+    mBuf[6] = MBOX_TAG_LAST;
 
-            if (mbox_call(ADDR(mBuf), MBOX_CH_PROP)) {
-                uart_puts("Board revision: ");
-                uart_hex(mBuf[5]);
-            } else {
-                uart_puts("Unable to query!\n");
-            }
+    if (mbox_call(ADDR(mBuf), MBOX_CH_PROP)) {
+        uart_puts("Board revision: ");
+        uart_hex(mBuf[5]);
+    } else {
+        uart_puts("Unable to query!\n");
+    }
 }
 void get_clock_rate() {
     // mailbox data buffer: Read ARM frequency
@@ -369,6 +382,42 @@ void get_clock_rate() {
     } else {
         uart_puts("\nUnable to get ARM clock rate!\n");
     }
+}
+void get_mac_addr() {
+    // mailbox data buffer: Read ARM frequency
+    mBuf[0] =
+        7 *
+        4;  // Message Buffer Size in bytes (8 elements * 4 bytes (32 bit) each)
+    mBuf[1] = MBOX_REQUEST;  // Message Request Code (this is a request message)
+    mBuf[2] = 0x00010003;    // TAG Identifier: Get mac address
+    mBuf[3] = 6;             // Reponse length
+    mBuf[4] = 0;             // REQUEST CODE = 0
+    mBuf[5] = 0;             // clear output buffer for board revision
+    mBuf[7] = MBOX_TAG_LAST;
+
+    if (mbox_call(ADDR(mBuf), MBOX_CH_PROP)) {
+        uart_puts("\nMAC adress = ");
+        uart_dec(mBuf[5]);
+        uart_puts("\n");
+    } else {
+        uart_puts("\nUnable to get MAC address!\n");
+    }
+}
+void draw() {
+    // Initialize frame buffer
+    framebf_init();
+
+    // draw circle yellow
+    drawCircleARGB32(300, 300, 100, 0x00FFFF00, 0);  // YELLOW
+    // drawCircleARGB32(300, 300, 100, 0x00AABB00, 0);
+}
+void get_board_model() {
+    // Initialize frame buffer
+    
+}
+void get_pixel_clock() {
+    // Initialize frame buffer
+    
 }
 // Utility
 void cls() { uart_puts("\033[H\033[J"); }
