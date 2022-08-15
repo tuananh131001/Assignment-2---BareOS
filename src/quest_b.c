@@ -67,7 +67,7 @@ void get_command() {
     // End split
 
     int cmd = -1;
-    static int TOTAL_CMD = 5;
+    static int TOTAL_CMD = 10;
     static char cmds[][20] = {"brdrev",   "cls",       "scrsize", "setcolor",
                               "help",     "clockrate", "macadr",  "draw",
                               "brdmodel", "pxlclk"};
@@ -148,7 +148,6 @@ void get_command() {
         case 9:
             get_pixel_clock();
             break;
-
         default:
             // if cmd == -1 => not found
             uart_puts("Invalid command. Please enter again!\n");

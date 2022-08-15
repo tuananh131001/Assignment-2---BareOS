@@ -8,7 +8,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # This program built for i386-pc-mingw32
  
 
-# Make data base, printed on Sun Aug 14 21:45:35 2022
+# Make data base, printed on Mon Aug 15 16:38:05 2022
 
 # Variables
 
@@ -56,16 +56,16 @@ PROGRAMW6432 = C:\Program Files
 # environment
 PROGRAMDATA = C:\ProgramData
 # environment
-VSCODE_CWD = C:\Windows\system32
+VSCODE_CWD = C:\Users\TA\AppData\Local\Programs\Microsoft VS Code
 # environment
 PATH = C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Git\cmd;C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin;C:\Users\TA\AppData\Local\Microsoft\WindowsApps;E:\PyCharm 2022.1.4\bin;C:\Users\TA\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin;C:\Program Files (x86)\gcc-arm-10.3-2021.07-mingw-w64-i686-aarch64-none-elf\bin;C:\Program Files (x86)\GnuWin32\bin;C:\Program Files\qemu;C:\Users\TA\AppData\Local\gitkraken\bin
 # environment
 COMMONPROGRAMW6432 = C:\Program Files\Common Files
 # environment
-PROCESSOR_ARCHITECTURE = x86
+PROCESSOR_ARCHITECTURE = x86 
+
 # environment
-USERPROFILE = C:\U 
-sers\TA
+USERPROFILE = C:\Users\TA
 # environment
 ALLUSERSPROFILE = C:\ProgramData
 # environment
@@ -79,7 +79,7 @@ LDFLAGS = -nostdlib
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_3556_COXPXLCRXIWUFYYX
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_5256_JUWPCROEFLMOMNBY
 # environment
 COMPUTERNAME = DESKTOP-VUVCBCM
 # environment
@@ -99,9 +99,9 @@ VSCODE_CODE_CACHE_PATH = C:\Users\TA\AppData\Roaming\Code\CachedData\6d9b74a70ca
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
-COMMONPROGRAMFILES = C:\Program Files (x86)\Common Files
-# environme 
-nt
+COMMONPROGRAMFILES = C:\Program Fil 
+es (x86)\Common Files
+# environment
 LOGONSERVER = \\DESKTOP-VUVCBCM
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
@@ -142,8 +142,7 @@ VSCODE_IPC_HOOK = \\.\pipe\6d8abdafa80365805ead99060398f090-1.70.1-main-sock
 # environment
 HOMEPATH = \Users\TA
 # environment
-COMMONPROGRAMFILES(X86) = C:\Program  
-Files (x86)\Common Files
+COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
 # environment
 PROMPT = $P$G
 # environment
@@ -166,7 +165,8 @@ COMSPEC = C:\Windows\system32\cmd.exe
 MAKEFILES := 
 # makefile (from `makefile', line 3)
 SRC_DIR = ./src
-# automatic
+# automa 
+tic
 <F = $(notdir $<)
 # environment
 LC_ALL = C
@@ -193,7 +193,8 @@ PROCESSOR_LEVEL = 6
 # environment
 FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
 # environment
-VSCODE_PID = 3556
+VSC 
+ODE_PID = 5256
 # environment
 USERDOMAIN_ROAMINGPROFILE = DESKTOP-VUVCBCM
 # variable set hash-table stats:
@@ -210,23 +211,24 @@ USERDOMAIN_ROAMINGPROFILE = DESKTOP-VUVCBCM
 # C:\Program Files\qemu (key C:/Program Files/qemu, mtime 1660194902): 161 files, no impossibilities.
 # C:\Windows\System32\WindowsPowerShell\v1.0\ (key C:/Windows/System32/WindowsPowerShell/v1.0/, mtime 1633528630): 30 files, no impossibilities.
 # C:\Windows\System32\Wbem (key C:/Windows/System32/Wbem, mtime 1660157987): 169 files, no impossibilities.
-# . (key c:/Users/TA/Documents/Assignment-2---BareOS, mtime 1660487968): 11 files, no impossibilities.
-# C:\Program Files (x86)\gcc-arm-10.3-2021.07-mingw-w64-i686-aarch64-none-elf\bin (key C:/Program Files (x86)/gcc-arm-10.3-2021.07-mingw-w64-i686-aarch64-none-elf/bin, mtime 1660109228): 33 files, no impossibilities.
+# . (key c:/Users/TA/Documents/Assignment-2---BareOS, mtime 1660556268): 10 files, no impossibilities.
+# C:\Program Files (x86)\gcc-a 
+rm-10.3-2021.07-mingw-w64-i686-aarch64-none-elf\bin (key C:/Program Files (x86)/gcc-arm-10.3-2021.07-mingw-w64-i686-aarch64-none-elf/bin, mtime 1660109228): 33 files, no impossibilities.
 # C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common (key C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common, mtime 1657433843): 10 files, no impossibilities.
 # E:\PyCharm 2022.1.4\bin (key E:/PyCharm 2022.1.4/bin, mtime 1659168922): 28 files, no impossibilities.
 # C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin (key C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin, mtime 1660103553): 35 files, no impossibilities.
-# ./src (key c:/Users/TA/Documents/Assignment-2---BareOS/src, mtime 1660487306): 19 files, no impossibilities.
+# ./src (key c:/Users/TA/Documents/Assignment-2---BareOS/src, mtime 1660556268): 19 files, no impossibilities.
 # C:\Windows\System32\OpenSSH\: could not be stat'd.
 # C:\Windows (key C:/Windows, mtime 1660478889): 116 files, no impossibilities.
-# C:\Users\TA\AppData\Local\Programs\Microsoft VS Code\bin (key C:/Users/TA/AppData/Local/Programs/Microsoft VS Code/bin, mtime 1660191834): 4 files, no impossibilities.
-# src (key c:/Users/TA/Documents/Assignment-2---BareOS/src, mtime 1660487306): 19 files, no impossibilities.
+# C:\Users\TA\AppData\Local\Programs\Microsoft VS Code\bin (key C:/Users/TA/AppData/Local/Programs/Microsoft VS Code/bin, mtime 166019 
+1834): 4 files, no impossibilities.
+# src (key c:/Users/TA/Documents/Assignment-2---BareOS/src, mtime 1660556268): 19 files, no impossibilities.
 # C:\Program Files\Git\cmd (key C:/Program Files/Git/cmd, mtime 1658908844): 8 files, no impossibilities.
 # C:\Windows\system32 (key C:/Windows/system32, mtime 1660479282): 2985 files, no impossibilities.
 # C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR (key C:/Program Files/NVIDIA Corporation/NVIDIA NvDLISR, mtime 1657439630): 5 files, no impossibilities.
-# C:\Program Files (x86)\GnuWin32\bin 
- (key C:/Program Files (x86)/GnuWin32/bin, mtime 1660112905): 5 files, no impossibilities.
+# C:\Program Files (x86)\GnuWin32\bin (key C:/Program Files (x86)/GnuWin32/bin, mtime 1660112905): 5 files, no impossibilities.
 
-# 3652 files, no impossibilities in 19 directories.
+# 3651 files, no impossibilities in 19 directories.
 
 # Implicit Rules
 
@@ -261,7 +263,8 @@ object/boot.o: src/boot.S
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `makefile', line 14):
+#  commands to execute (from `makefi 
+le', line 14):
 	aarch64-none-elf-gcc $(GCCFLAGS) -c $< -o $@
 	
 
@@ -278,14 +281,22 @@ object/quest_a.o:
 #  File has not been updated.
 
 # Not a target:
-src/framebf.c:
+src/printf.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-12 22:06:41
+#  Last modified 2022-08-14 21:59:59
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
-# Load=0/3 
-2=0%, Rehash=0, Collisions=0/0=0%
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+src/framebf.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-15 16:37:48
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 test: all run
 #  Implicit rule search has not been done.
@@ -301,11 +312,18 @@ makefile:
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
-# Not a target:
-object/mbox.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+object/mbox.o: src/mbox.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `mbox'
+#  Last modified 2022-08-15 16:37:48
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `makefile', line 17):
+	aarch64-none-elf-gcc $(CFLAGS) -c $< -o $@
+	 
+
 
 # Not a target:
 object/quest_b.o:
@@ -316,7 +334,7 @@ object/quest_b.o:
 # Not a target:
 src/main.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-14 21:43:10
+#  Last modified 2022-08-15 16:37:48
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -326,13 +344,36 @@ src/main.c:
 .SUFFIXES:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
-#  File has not been updated.
+#  File has not been update 
+d.
 
-# Not a target:
-object/printf.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+object/printf.o: src/printf.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `printf'
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := object/printf.o
+# automatic
+# % := 
+# automatic
+# * := printf
+# automatic
+# + := src/printf.c
+# automatic
+# | := 
+# automatic
+# < := src/printf.c
+# automatic
+# ^ := src/printf.c
+# automatic
+# ? := src/printf.c
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/13=8%
+#  commands to execute (from `makefile', line 17):
+	aarch64-none-elf-gcc $(CFLAGS) -c $< -o $@
+	
 
 run:
 #  Implicit rule search has not been done.
@@ -345,8 +386,9 @@ run:
 object/framebf.o: src/framebf.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `framebf'
-#  Last modified 2022-08-14 21:33:36
-#  File has been updated.
+#  Last modified 2022-08-15 16:37:48
+#  File has been up 
+dated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
@@ -365,7 +407,8 @@ clean:
 # Not a target:
 src/boot.S:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 11:25:32
+#  Last modif 
+ied 2022-08-11 11:25:32
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -373,7 +416,7 @@ src/boot.S:
 
 kernel8.img: object/boot.o object/framebf.o object/main.o object/mbox.o object/printf.o object/quest_a.o object/quest_b.o object/uart.o
 #  Implicit rule search has not been done.
-#  Last modified 2022-08-14 21:39:28
+#  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
@@ -386,33 +429,27 @@ kernel8.img: object/boot.o object/framebf.o object/main.o object/mbox.o object/p
 object/main.o: src/main.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `main'
-#  Last modified 2022-08-14 21:39:28
+#  Last modified 2022-08-15 16:37:48
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := object/main.o
-# automatic
-# % := 
-# automatic
-# * := main
-# automatic
-# + := src/main.c
-# automatic
-# | := 
-# automatic
-# < := src/main.c
-# automatic
-# ^ := src/main.c
-# automatic
-# ? := src/main.c
+#  Successfully updated.
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/13=8%
-#  commands to execute (from `makefile', line 17):
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execu 
+te (from `makefile', line 17):
 	aarch64-none-elf-gcc $(CFLAGS) -c $< -o $@
 	
 
+# Not a target:
+src/mbox.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-12 22:08:32
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
 # files hash-table stats:
-# Load=19/1024=2%, Rehash=0, Collisions=0/50=0%
+# Load=21/1024=2%, Rehash=0, Collisions=0/58=0%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -420,10 +457,11 @@ object/main.o: src/main.c
 # No general (`VPATH' variable) search path.
 
 # # of strings in strcache: 1
-# # of strcache buffers: 1
+# 
+ # of strcache buffers: 1
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Sun Aug 14 21:45:35 2022
+# Finished Make data base on Mon Aug 15 16:38:05 2022
 
  

@@ -6,6 +6,7 @@ aarch64-none-elf-gcc  -c src/main.c -o object/main.o
 aarch64-none-elf-gcc  -c src/mbox.c -o object/mbox.o
 aarch64-none-elf-gcc  -c src/printf.c -o object/printf.o
 aarch64-none-elf-gcc  -c src/quest_a.c -o object/quest_a.o
+ 
 aarch64-none-elf-gcc  -c src/quest_b.c -o object/quest_b.o
 aarch64-none-elf-gcc  -c src/uart.c -o object/uart.o
 aarch64-none-elf-ld -nostdlib  ./object/boot.o ./object/framebf.o ./object/main.o ./object/mbox.o ./object/printf.o ./object/quest_a.o ./object/quest_b.o ./object/uart.o -T ./src/link.ld -o ./object/kernel8.elf
