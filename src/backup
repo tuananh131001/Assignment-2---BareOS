@@ -1,0 +1,854 @@
+#include "printf.h"
+#include "uart.h"
+#define SPACE 0x20
+
+#define MAX_PRINT_SIZE 256
+
+
+void clear(char *s) {
+    while (*s != '\0') {
+        *(s++) = '\0';
+    }
+}
+
+unsigned long int power(unsigned int base, unsigned int pow) {
+    if (pow != 0) {
+        return (base * power(base, pow - 1));
+    }
+
+    else
+        return 1;
+}
+void printf(char* string, ...) {
+    va_list ap;
+    va_start(ap, string);
+
+    char buffer[MAX_PRINT_SIZE];
+    int buffer_index = 0;
+
+    char temp_buffer[MAX_PRINT_SIZE];
+    clear_buffer(buffer);
+    while (1) {
+        if (*string == 0) break;
+
+        if (*string == '%') {
+            string++;
+
+            // compare if next character is d
+            if (*string == 'd') {
+                // If yes, move on to next char
+                string++;
+
+                // Take the next argument
+                int x = va_arg(ap, int);
+                int temp_index = MAX_PRINT_SIZE - 1;
+
+                if (x < 0) {
+                    x *= (-1);
+                    buffer[buffer_index] = '-';
+                    buffer_index++;
+                }
+
+                do {
+                    temp_buffer[temp_index] = (x % 10) + '0';
+                    temp_index--;
+                    x /= 10;
+                } while (x != 0);
+
+                for (int i = temp_index + 1; i < MAX_PRINT_SIZE; i++) {
+                    buffer[buffer_index] = temp_buffer[i];
+                    buffer_index++;
+                }
+
+            } else if (*string == 'x') {
+                // if yes, move on to next char
+                string++;
+
+                // Take the next argument
+                int x = va_arg(ap, int);
+
+                static char hex[] = "0123456789abcdef";
+                int temp_index = MAX_PRINT_SIZE - 1;
+
+                do {
+                    temp_buffer[temp_index] = hex[x % 16];
+                    temp_index--;
+                    x /= 16;
+                } while (x != 0);
+
+                for (int i = temp_index + 1; i < MAX_PRINT_SIZE; i++) {
+                    buffer[buffer_index] = temp_buffer[i];
+                    buffer_index++;
+                }
+
+                // Check the case %%
+                if (*string == '%') {
+                    char* p = string;
+
+                    if (*(++p) == '%') {
+                        buffer[buffer_index] = *(string++);
+                        buffer_index++;
+                    }
+                }
+            }
+            // Octal number
+            else if (*string == 'o') {
+                // if yes, move on to next char
+                string++;
+
+                // Take the next argument
+                int x = va_arg(ap, int);
+
+                static char hex[] = "01234567";
+                int temp_index = MAX_PRINT_SIZE - 1;
+
+                do {
+                    temp_buffer[temp_index] = hex[x % 8];
+                    temp_index--;
+                    x /= 8;
+                } while (x != 0);
+
+                for (int i = temp_index + 1; i < MAX_PRINT_SIZE; i++) {
+                    buffer[buffer_index] = temp_buffer[i];
+                    buffer_index++;
+                }
+
+                // Check the case %%
+                if (*string == '%') {
+                    char* p = string;
+
+                    if (*(++p) == '%') {
+                        buffer[buffer_index] = *(string++);
+                        buffer_index++;
+                    }
+                }
+            }
+            // character format
+            else if (*string == 'c') {
+                // if yes, move on to next char
+                string++;
+
+                // Take the next argument
+                int x = va_arg(ap, int);
+
+                buffer[buffer_index] = x;
+                buffer_index++;
+
+                // Check the case %%
+                if (*string == '%') {
+                    char* p = string;
+
+                    if (*(++p) == '%') {
+                        buffer[buffer_index] = *(string++);
+                        buffer_index++;
+                    }
+                }
+            }
+            // string format
+            else if (*string == 's') {
+                // If yes, move on to next char
+                string++;
+
+                char* x = va_arg(ap, char*);
+
+                while (*x != '\0') {
+                    buffer[buffer_index] = *(x++);
+                    buffer_index++;
+                }
+
+                // Check the case %%
+                if (*string == '%') {
+                    char* p = string;
+
+                    if (*(++p) == '%') {
+                        buffer[buffer_index] = *(string++);
+                        buffer_index++;
+                    }
+                }
+            }
+            // Standard float
+            else if (*string == 'f') {
+                // If yes, move on to next char
+                string++;
+
+                double f = va_arg(ap, double);
+
+                long int convert_int = f * 1000000;
+
+                if (convert_int < 0) {
+                    convert_int *= (-1);
+                    buffer[buffer_index] = '-';
+                    buffer_index++;
+                }
+
+                int temp_index = MAX_PRINT_SIZE - 1;
+                int count = 0;
+
+                do {
+                    if (count == 6) {
+                        temp_buffer[temp_index] = '.';
+                        temp_index--;
+                        count++;
+                        continue;
+                    }
+                    temp_buffer[temp_index] = (convert_int % 10) + '0';
+                    temp_index--;
+                    count++;
+                    convert_int /= 10;
+                } while (convert_int != 0);
+
+                for (int i = temp_index + 1; i < MAX_PRINT_SIZE; i++) {
+                    buffer[buffer_index] = temp_buffer[i];
+                    buffer_index++;
+                }
+
+                // Check the case %%
+                if (*string == '%') {
+                    char* p = string;
+
+                    if (*(++p) == '%') {
+                        buffer[buffer_index] = *(string++);
+                        buffer_index++;
+                    }
+                }
+            }
+
+            // Check the case %%
+            else if (*string == '%') {
+                buffer[buffer_index] = *(string++);
+                buffer_index++;
+            }
+
+            // check flag 0
+            else if (*string == '0') {
+                char first_term[50];
+                sub_string(string, first_term, 1,
+                           find_space_and_eof(string) - 1);
+
+                // Move to next char
+                string++;
+                string++;
+
+                char width[100];
+                int i = 0;
+                int precision_flag = 0;
+
+                char* p = first_term;
+
+                int count_width = 0;
+
+                // Find the width
+                while (*(p) != '.') {
+                    if (*(p) == first_term[find_length(first_term) - 1]) {
+                        precision_flag = 0;
+                        break;
+                    }
+                    width[i++] = (*p);
+                    count_width++;
+                    p++;
+                    precision_flag = 1;
+                    // Move to next char
+                    string++;
+                }
+
+                // check precision again
+                if (count_width == 0) {
+                    width[0] = '0';
+                    if (*(p) == '.') {
+                        precision_flag = 1;
+                    }
+                }
+
+                char precision[100];
+
+                // Find the precision
+                if (precision_flag == 1) {
+                    int j = 0;
+
+                    while (*(++p) != first_term[find_length(first_term) - 1]) {
+                        precision[j++] = *(p);
+
+                        // Move to next char
+                        string++;
+                    }
+
+                    string++;
+                }
+
+                // Check hex case
+                if (first_term[find_length(first_term) - 1] == 'x') {
+                    // Take the next argument
+                    int x = va_arg(ap, int);
+
+                    static char hex[] = "0123456789abcdef";
+                    int temp_index = MAX_PRINT_SIZE - 1;
+                    int length_temp_buffer = 0;
+
+                    do {
+                        temp_buffer[temp_index] = hex[x % 16];
+                        temp_index--;
+                        x /= 16;
+                        length_temp_buffer++;
+                    } while (x != 0);
+
+                    // Scan width first
+                    for (int z = 0;
+                         z < atoi(width) - find_larger(atoi(precision),
+                                                       length_temp_buffer);
+                         z++) {
+                        if (precision_flag == 1) {
+                            buffer[buffer_index] = ' ';
+                        } else {
+                            buffer[buffer_index] = '0';
+                        }
+
+                        buffer_index++;
+                    }
+
+                    // Scan precision second
+                    for (int j = 0; j < atoi(precision) - length_temp_buffer;
+                         j++) {
+                        buffer[buffer_index] = '0';
+                        buffer_index++;
+                    }
+
+                    // Scan the number into the buffer
+                    for (int i = temp_index + 1; i < MAX_PRINT_SIZE; i++) {
+                        buffer[buffer_index] = temp_buffer[i];
+                        buffer_index++;
+                    }
+                }
+
+                // Check the case:  float
+                if (first_term[find_length(first_term) - 1] == 'f') {
+                    float f = va_arg(ap, double);
+                    int multiplier = 1;
+
+                    // Variable for the no precision case
+                    int temp_count = -1;
+
+                    // Calculate the precision
+                    if (atoi(precision) != 0) {
+                        for (int i = 0; i < atoi(precision); i++) {
+                            multiplier *= 10;
+                        }
+                    } else {
+                        multiplier = 1000000;  // 10million
+                        temp_count = 6;
+                    }
+
+                    int convert_int = f * multiplier;
+
+                    // Check negative number
+                    int flag_negative = 0;
+                    if (convert_int < 0) {
+                        flag_negative = 1;
+                        convert_int *= (-1);
+                    }
+
+                    // Define some necessary variable
+                    int temp_index = MAX_PRINT_SIZE - 1;
+                    int count = 0;
+                    int length_temp_buffer = 0;
+
+                    // Load the data into temp_buffer
+                    do {
+                        if ((count == atoi(precision) &&
+                             atoi(precision) != 0) ||
+                            count == temp_count) {
+                            temp_buffer[temp_index] = '.';
+                            temp_index--;
+                            count++;
+                            continue;
+                        }
+                        temp_buffer[temp_index] = (convert_int % 10) + '0';
+                        temp_index--;
+                        count++;
+                        convert_int /= 10;
+                        length_temp_buffer++;
+                    } while (convert_int != 0);
+
+                    // If negative, then add - to the buffer
+                    if (flag_negative == 1) {
+                        buffer[buffer_index] = '-';
+                        buffer_index++;
+                    }
+
+                    // Scan width first
+                    for (int z = 0; z < atoi(width) - length_temp_buffer - 1 -
+                                            flag_negative;
+                         z++) {
+                        buffer[buffer_index] = '0';
+                        buffer_index++;
+                    }
+
+                    // Scan the float into the buffer
+                    for (int i = temp_index + 1; i < MAX_PRINT_SIZE; i++) {
+                        buffer[buffer_index] = temp_buffer[i];
+                        buffer_index++;
+                    }
+                }
+
+                // If the last_term is d
+                if (first_term[find_length(first_term) - 1] == 'd') {
+                    // Take the next argument
+                    int x = va_arg(ap, int);
+                    int temp_index = MAX_PRINT_SIZE - 1;
+
+                    // Check negative number
+                    int flag_negative = 0;
+                    if (x < 0) {
+                        flag_negative = 1;
+                        x *= (-1);
+                    }
+
+                    int length_temp_buffer = 0;
+                    do {
+                        temp_buffer[temp_index] = (x % 10) + '0';
+                        temp_index--;
+                        length_temp_buffer++;
+                        x /= 10;
+                    } while (x != 0);
+
+                    if (flag_negative == 1) {
+                        buffer[buffer_index] = '-';
+                        buffer_index++;
+                    }
+
+                    // Scan width first
+                    for (int z = 0; z < atoi(width) -
+                                            find_larger(atoi(precision),
+                                                        length_temp_buffer) -
+                                            flag_negative;
+                         z++) {
+                        if (precision_flag == 1) {
+                            buffer[buffer_index] = ' ';
+                        } else
+                            buffer[buffer_index] = '0';
+
+                        buffer_index++;
+                    }
+
+                    // Scan precision second
+                    for (int j = 0; j < atoi(precision) - length_temp_buffer;
+                         j++) {
+                        buffer[buffer_index] = '0';
+                        buffer_index++;
+                    }
+
+                    // Scan the final number
+                    int i;
+                    for (i = temp_index + 1; i < MAX_PRINT_SIZE; i++) {
+                        buffer[buffer_index] = temp_buffer[i];
+                        buffer_index++;
+                    }
+                }
+
+                // if the pattern is char
+                if (first_term[find_length(first_term) - 1] == 'c') {
+                    // Scan width first
+                    for (int z = 0; z < atoi(width) - 1; z++) {
+                        buffer[buffer_index] = ' ';
+                        buffer_index++;
+                    }
+
+                    // Take the next argument
+                    int x = va_arg(ap, int);
+
+                    buffer[buffer_index] = x;
+                    buffer_index++;
+                    uart_puts("Character does not support flag or precision\n");
+                }
+
+                // if the pattern is string
+                if (first_term[find_length(first_term) - 1] == 's') {
+                    char* x = va_arg(ap, char*);
+
+                    // Declare real length of char* x
+                    int r_length = find_length(x);
+
+                    int temp;
+
+                    // Set the needed length
+                    if (atoi(precision) > r_length) {
+                        temp = r_length;
+                    } else {
+                        temp = atoi(precision);
+                    }
+
+                    // Scan width first
+                    for (int z = 0; z < atoi(width) - temp; z++) {
+                        buffer[buffer_index] = ' ';
+                        buffer_index++;
+                    }
+
+                    // Scan the actual length
+                    for (int i = 0; i < temp; i++) {
+                        buffer[buffer_index] = *(x++);
+                        buffer_index++;
+                    }
+                    uart_puts("String does not support flag 0\n");
+                }
+            }
+
+        } else if (*string >= 49 && *string <= 57) {
+            char first_term[50];
+            sub_string(string, first_term, 0, find_space_and_eof(string) - 1);
+
+            // Move to next char
+            string++;
+
+            char width[100];
+            int i = 0;
+            int precision_flag = 0;
+
+            char* p = first_term;
+            while (*(p) != '.') {
+                if (*(p) == first_term[find_length(first_term) - 1]) {
+                    precision_flag = 0;
+                    break;
+                }
+                width[i++] = (*p);
+
+                p++;
+                precision_flag = 1;
+                // Move to next char
+                string++;
+            }
+
+            char precision[100];
+            if (precision_flag == 1) {
+                int j = 0;
+
+                while (*(++p) != first_term[find_length(first_term) - 1]) {
+                    precision[j++] = *(p);
+
+                    // Move to next char
+                    string++;
+                }
+
+                string++;  // scan the dot
+            }
+
+            // if the pattern is string
+            if (first_term[find_length(first_term) - 1] == 's') {
+                char* x = va_arg(ap, char*);
+
+                // Declare real length of char* x
+                int r_length = find_length(x);
+
+                int temp;
+
+                // Set the needed length
+                if (atoi(precision) > r_length) {
+                    temp = r_length;
+                } else {
+                    temp = atoi(precision);
+                }
+
+                // Scan width first
+                for (int z = 0; z < atoi(width) - temp; z++) {
+                    buffer[buffer_index] = ' ';
+                    buffer_index++;
+                }
+
+                // Scan the actual length
+                for (int i = 0; i < temp; i++) {
+                    buffer[buffer_index] = *(x++);
+                    buffer_index++;
+                }
+            }
+
+            // if the pattern is char
+            if (first_term[find_length(first_term) - 1] == 'c') {
+                // Scan width first
+                for (int z = 0; z < atoi(width) - 1; z++) {
+                    buffer[buffer_index] = ' ';
+                    buffer_index++;
+                }
+
+                // Take the next argument
+                int x = va_arg(ap, int);
+
+                buffer[buffer_index] = x;
+                buffer_index++;
+            }
+
+            // if the pattern is hex
+            if (first_term[find_length(first_term) - 1] == 'x') {
+                // Take the next argument
+                int x = va_arg(ap, int);
+
+                static char hex[] = "0123456789abcdef";
+                int temp_index = MAX_PRINT_SIZE - 1;
+                int length_temp_buffer = 0;
+
+                do {
+                    temp_buffer[temp_index] = hex[x % 16];
+                    temp_index--;
+                    x /= 16;
+                    length_temp_buffer++;
+                } while (x != 0);
+
+                // Scan width first
+                for (int z = 0;
+                     z < atoi(width) -
+                             find_larger(atoi(precision), length_temp_buffer);
+                     z++) {
+                    buffer[buffer_index] = ' ';
+                    buffer_index++;
+                }
+
+                // Scan precision second
+                for (int j = 0; j < atoi(precision) - length_temp_buffer; j++) {
+                    buffer[buffer_index] = '0';
+                    buffer_index++;
+                }
+
+                for (int i = temp_index + 1; i < MAX_PRINT_SIZE; i++) {
+                    buffer[buffer_index] = temp_buffer[i];
+                    buffer_index++;
+                }
+            }
+
+            // If the pattern is float
+            if (first_term[find_length(first_term) - 1] == 'f') {
+                float f = va_arg(ap, double);
+                int multiplier = 1;
+
+                // Variable for the no precision case
+                int temp_count = -1;
+
+                if (atoi(precision) != 0) {
+                    for (int i = 0; i < atoi(precision); i++) {
+                        multiplier *= 10;
+                    }
+                } else {
+                    multiplier = 1000000;  // 10million
+                    temp_count = 6;
+                }
+
+                long long convert_int = f * multiplier;
+
+                // Check negative number
+                int flag_negative = 0;
+                if (convert_int < 0) {
+                    flag_negative = 1;
+                    convert_int *= (-1);
+                }
+
+                int temp_index = MAX_PRINT_SIZE - 1;
+                int count = 0;
+                int length_temp_buffer = 0;
+
+                do {
+                    if ((count == atoi(precision) && atoi(precision) != 0) ||
+                        count == temp_count) {
+                        temp_buffer[temp_index] = '.';
+                        temp_index--;
+                        count++;
+                        continue;
+                    }
+                    temp_buffer[temp_index] = (convert_int % 10) + '0';
+                    temp_index--;
+                    count++;
+                    convert_int /= 10;
+                    length_temp_buffer++;
+                } while (convert_int != 0);
+
+                // Scan width first
+                for (int z = 0;
+                     z < atoi(width) - length_temp_buffer - 1 - flag_negative;
+                     z++) {
+                    buffer[buffer_index] = ' ';
+                    buffer_index++;
+                }
+
+                if (flag_negative == 1) {
+                    buffer[buffer_index] = '-';
+                    buffer_index++;
+                }
+
+                // Scan the float into the buffer
+                for (int i = temp_index + 1; i < MAX_PRINT_SIZE; i++) {
+                    buffer[buffer_index] = temp_buffer[i];
+                    buffer_index++;
+                }
+            }
+
+            // If the last_term is d
+            if (first_term[find_length(first_term) - 1] == 'd') {
+                // Take the next argument
+                int x = va_arg(ap, int);
+                int temp_index = MAX_PRINT_SIZE - 1;
+
+                int length_temp_buffer = 0;
+                do {
+                    temp_buffer[temp_index] = (x % 10) + '0';
+                    temp_index--;
+                    length_temp_buffer++;
+                    x /= 10;
+                } while (x != 0);
+
+                // Scan width first
+                for (int z = 0;
+                     z < atoi(width) -
+                             find_larger(atoi(precision), length_temp_buffer);
+                     z++) {
+                    buffer[buffer_index] = ' ';
+                    buffer_index++;
+                }
+
+                // Scan precision second
+                for (int j = 0; j < atoi(precision) - length_temp_buffer; j++) {
+                    buffer[buffer_index] = '0';
+                    buffer_index++;
+                }
+
+                // Scan the final number
+                int i;
+                for (i = temp_index + 1; i < MAX_PRINT_SIZE; i++) {
+                    buffer[buffer_index] = temp_buffer[i];
+                    buffer_index++;
+                }
+            }
+        
+        } else {
+            buffer[buffer_index] = *string;
+            buffer_index++;
+            string++;
+        }
+
+        if (buffer_index == MAX_PRINT_SIZE - 1) break;
+    }
+
+    va_end(ap);
+
+    // Print out formated string
+    uart_puts(buffer);
+}
+
+void clear_buffer(char* str) {
+    char* p = str;
+    while (*p != '\0') {
+        *p = '\0';
+        p++;
+    }
+}
+
+// Convert string of numbers into integer
+int atoi(char s1[] ) {
+
+	int coverted_int = 0, offset = 0 , c;
+
+	  for (c = offset; s1[c] != '\0'; c++) {
+		  coverted_int = coverted_int * 10 + s1[c] - '0';
+	  }
+
+
+	  return coverted_int;
+}
+
+// find length of the string
+int find_length(char *s1 ){
+	int count = 0;
+	while(*s1 != '\0'){
+		count++;
+		s1++;
+	}
+	return count;
+}
+
+int find_larger(int s1 , int s2){
+	return s1 > s2 ? s1 : s2;
+}
+
+// Helpful when you know the first term in the function name
+void sub_string (char* s, char sub[], int first_index , int last_index ){
+	   int i = 0;
+
+
+	   while (first_index <= last_index) {
+
+	      sub[i] = s[first_index];
+	      first_index++;
+	      i++;
+	   }
+	   sub[i] = '\0';
+}
+
+// Find the dash delimiter
+int find_dash (char* string , char delimeter [] ) {
+
+
+	// declare the count variable
+	int count = 0;
+
+	// loop through the input function
+	while(*string != '\0') {
+
+		// Check the dash
+		if (*string == delimeter[0]) {
+
+			// Then check the character
+			if (*(++string) == delimeter[1]){
+				count++;
+				return count;
+			}
+			count++;
+			continue;
+		}
+
+		// increase the address
+		string++;
+		count++;
+	}
+	return -1;
+}
+
+// Find the space delimiter
+int find_space (char* string ) {
+
+
+	// declare the count variable
+	int count = 0;
+
+	// loop through the input function
+	while(*string != '\0') {
+
+		// Check the dash
+		if (*string == SPACE) {
+
+			return count;
+		}
+
+		// increase the address
+		string++;
+		count++;
+	}
+	return -1;
+}
+
+// Find the space delimiter
+int find_space_and_eof(char * string) {
+
+
+	// declare the count variable
+	int count = 0;
+
+	// loop through the input function
+	while(*string != '\0') {
+
+		// Check the dash
+		if (*string == SPACE) {
+
+			return count;
+		}
+
+		// increase the address
+		string++;
+		count++;
+	}
+	return count;
+}
+

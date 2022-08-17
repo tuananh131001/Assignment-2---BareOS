@@ -255,7 +255,13 @@ int compare_str(char *str, char *substr) {
 
 // Utility
 void help_function(char *temp_str) {
-    if (strcmp(temp_str, "help setcolor") == 0) {
+    if (strcmp(temp_str, "help help") == 0) {
+        uart_puts(
+            "HELP\tDisplay all help function "
+            "	\n"
+            "Example: help");
+
+    } else if (strcmp(temp_str, "help setcolor") == 0) {
         uart_puts(
             "SETCOLOR\tSet text color, and/or background color of the "
             "	\n"
@@ -290,53 +296,58 @@ void help_function(char *temp_str) {
     } else if (strcmp(temp_str, "help clockrate") == 0) {
         uart_puts(
             "CLOCKRATE\t\tDisplay information of clock rate \n"
-            "\t\tExample: armfreq \n");
+            "\t\tExample: clockrate \n");
 
-    } else if (strcmp(temp_str, "help uartfreq") == 0) {
+    } else if (strcmp(temp_str, "help macadar") == 0) {
         uart_puts(
-            "UARTFREQ\tDisplay information of UART frequency \n"
-            "\t\tExample: uartfreq \n");
+            "macadr\tDisplay MAC address of the board \n"
+            "\t\tExample: macadr \n");
+
+    } else if (strcmp(temp_str, "help draw") == 0) {
+        uart_puts(
+            "draw\tDraw a circle \n"
+            "\t\tExample: draw \n");
 
     } else if (strcmp(temp_str, "help brdmodel") == 0) {
         uart_puts(
             "BRDMODEL\tDisplay board model \n"
             "\t\tExample: brdmodel \n");
 
-    } else if (strcmp(temp_str, "help firmware") == 0) {
+    } else if (strcmp(temp_str, "help pxlclk") == 0) {
         uart_puts(
-            "FIRMWARE\tDisplay a version of current firmware \n"
-            "\t\tExample: firmware \n");
+            "pxlclk\tDisplay the pixel clock rate \n"
+            "\t\tExample: pxlclk \n");
 
     } else {
         uart_puts(
             "For more information on a specific command, type HELP "
             "command-name \n"
-            "HELP\t\tShow brief information of all commands 	"
+            "help\t\tShow brief information of all commands 	"
             "			  \n"
-            "SETCOLOR\tSet text color, and/or background color 	 "
+            "setcolor\tSet text color, and/or background color 	 "
             "		  \n"
-            "CLS\t\tClear screen				"
+            "cls\t\tClear screen				"
             "	"
             "					  \n"
-            "BRDREV\t\tShow board revision			"
+            "brdrev\t\tShow board revision			"
             "	"
             "					  \n"
-            "SCRSIZE\t\tSet screen size 			"
+            "scrsize\t\tSet screen size 			"
             "	"
             "					  \n"
             //"brdrev", "cls", "scrsize", "setcolor",
             //"help","armfreq","macadr","draw","brdmodel","pxlclk"
-            "ARMFREQ\t\tDisplay ARM frequency 			"
+            "clockrate\tDisplay ARM clock rate 			"
             "				  \n"
-            "MACADR\t\tShow MAC address			"
+            "macadr\t\tShow MAC address			"
             "				  \n"
-            "DRAW\t\tDraw an circle on the screen 			"
+            "draw\t\tDraw an circle on the screen 			"
             "	"
             "			  \n"
-            "BRDMODEL\tShow board model		"
+            "brdmodel\tShow board model		"
             "	"
             "			  \n"
-            "PXLCLK\t\tShow clock frequency of pixel clock	 	"
+            "pxlclk\t\tShow clock frequency of pixel clock	 	"
             "			"
             "					  \n");
     }
@@ -412,11 +423,46 @@ void draw() {
 }
 void get_board_model() {
     // Initialize frame buffer
-    
+    mBuf[0] =
+        7 *
+        4;  // Message Buffer Size in bytes (7 elements * 4 bytes (32 bit) each)
+    mBuf[1] = MBOX_REQUEST;  // Message Request Code (this is a request message)
+
+    mBuf[2] = 0x00010001;  // TAG Identifier: Get board rate
+    mBuf[3] =
+        4;  // Value buffer size in bytes (max of request and response lengths)
+    mBuf[4] = 0;  // REQUEST CODE = 0
+    mBuf[5] = 0;  // clear output buffer
+    mBuf[6] = MBOX_TAG_LAST;
+
+    if (mbox_call(ADDR(mBuf), MBOX_CH_PROP)) {
+        uart_puts("Model of board: ");
+        uart_hex(mBuf[5]);
+    } else {
+        uart_puts("Unable to query!\n");
+    }
 }
 void get_pixel_clock() {
-    // Initialize frame buffer
-    
+    // mailbox data buffer: Read ARM frequency
+    mBuf[0] =
+        8 *
+        4;  // Message Buffer Size in bytes (8 elements * 4 bytes (32 bit) each)
+    mBuf[1] = MBOX_REQUEST;  // Message Request Code (this is a request message)
+    mBuf[2] = 0x00030002;    // TAG Identifier: Get clock rate
+    mBuf[3] =
+        8;  // Value buffer size in bytes (max of request and response lengths)
+    mBuf[4] = 0;            // REQUEST CODE = 0
+    mBuf[5] = 0x000000009;  // clock id
+    mBuf[6] = 0;            // clear output buffer for board revision
+    mBuf[7] = MBOX_TAG_LAST;
+
+    if (mbox_call(ADDR(mBuf), MBOX_CH_PROP)) {
+        uart_puts("\nPIXEL clock rate = ");
+        uart_dec(mBuf[6]);
+        uart_puts("\n");
+    } else {
+        uart_puts("\nUnable to get PIXEL clock rate!\n");
+    }
 }
 // Utility
 void cls() { uart_puts("\033[H\033[J"); }
