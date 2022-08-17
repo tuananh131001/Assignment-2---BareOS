@@ -198,11 +198,28 @@ void get_input(char *temp_str) {
             int length = strlen(temp_str);
             for (int i = 0; i <= 10; i++) {
                 if (compare_str(cmds[i], temp_str) &&
-                    length < strlen(cmds[i])) {
+                    length <= strlen(cmds[i])) {
                     // print the rest command
+                    if (strcmp(cmds[i], temp_str) == 0) {
+                        while (total_char != 0) {
+                            uart_sendc(8);
+                            uart_sendc(32);
+                            uart_sendc(8);
+
+                            total_char--;
+                        }
+                        clear(temp_str);
+                        for (int j = length; j <= str_len(cmds[i]); j++) {
+                            uart_sendc(cmds[i][j]);
+                            temp_str[j] = cmds[i][j];
+                            total_char++;
+                        }
+                        continue;
+                    }
                     for (int j = length; j <= str_len(cmds[i]); j++) {
                         uart_sendc(cmds[i][j]);
                         temp_str[j] = cmds[i][j];
+                        total_char++;
                     }
                 }
             }
