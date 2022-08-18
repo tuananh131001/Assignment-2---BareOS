@@ -182,6 +182,10 @@ void get_input(char *temp_str) {
     static char cmds[][20] = {"brdrev",   "cls",       "scrsize", "setcolor",
                               "help",     "clockrate", "macadr",  "draw",
                               "brdmodel", "pxlclk"};
+    int index_cmd[10];
+    int index_count = 0;
+    int index_to_print = 0;
+
     uart_puts("\nTuanAnhOS> ");
     while (1) {
         char c = uart_getc();
@@ -195,34 +199,63 @@ void get_input(char *temp_str) {
 
         } else if (c == 9) {
             // if user press tab, auto complete the command
+            char last_str[20];
             int length = strlen(temp_str);
             for (int i = 0; i <= 10; i++) {
-                if (compare_str(cmds[i], temp_str) &&
-                    length <= strlen(cmds[i])) {
+                // if (strcmp(cmds[i], last_str) == 0) {
+                //     uart_puts(last_str);
+                //     continue;
+                // }
+                if (compare_str(cmds[i], temp_str)) {
                     // print the rest command
-                    if (strcmp(cmds[i], temp_str) == 0) {
-                        while (total_char != 0) {
-                            uart_sendc(8);
-                            uart_sendc(32);
-                            uart_sendc(8);
+                    // if (strcmp(cmds[i], temp_str) == 0) {
+                    //     while (total_char != 0) {
+                    //         uart_sendc(8);
+                    //         uart_sendc(32);
+                    //         uart_sendc(8);
 
-                            total_char--;
-                        }
-                        clear(temp_str);
-                        for (int j = length; j <= str_len(cmds[i]); j++) {
-                            uart_sendc(cmds[i][j]);
-                            temp_str[j] = cmds[i][j];
-                            total_char++;
-                        }
-                        continue;
-                    }
-                    for (int j = length; j <= str_len(cmds[i]); j++) {
-                        uart_sendc(cmds[i][j]);
-                        temp_str[j] = cmds[i][j];
-                        total_char++;
-                    }
+                    //         total_char--;
+                    //     }
+                    //     clear(temp_str);
+                    //     for (int j = length; j <= str_len(cmds[i]); j++) {
+                    //         uart_sendc(cmds[i][j]);
+                    //         temp_str[j] = cmds[i][j];
+                    //         total_char++;
+                    //     }
+                    //     continue;
+                    // }
+                    index_cmd[index_count] = i;
+                    index_count++;
+                    // for (int j = length; j <= str_len(cmds[i]); j++) {
+                    //     uart_sendc(cmds[i][j]);
+                    //     // temp_str[j] = cmds[i][j];
+                    //     // total_char++;
+                    // }
                 }
             }
+            // Clear temp str
+            while (total_char != 0) {
+                uart_sendc(8);
+                uart_sendc(32);
+                uart_sendc(8);
+
+                total_char--;
+            }
+            clear(temp_str);
+            // print the rest command
+            for (int j = 0; j < str_len(cmds[index_cmd[index_to_print]]); j++) {
+                uart_sendc(cmds[index_cmd[index_to_print]][j]);
+                temp_str[j] = cmds[index_cmd[index_to_print]][j];
+                total_char++;
+            }
+            // uart_puts(cmds[index_cmd[index_to_print]]);
+
+            // change to next command when user press tab
+            index_to_print++;
+            
+            // strcmp(cmds[index_count],temp_str);
+            // temp_str[j] = cmds[i][j];
+            // total_char++
 
         }
         // add each character into the string
