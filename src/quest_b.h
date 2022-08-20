@@ -13,7 +13,7 @@ void set_background_color(char background[]);
 void set_text_color(char text[]);
 void get_clock_rate();
 int compare_str(char *str, char *substr);
-void get_mac_addr();
+void get_vcmemory();
 void draw();
 void get_board_model();
 void get_pixel_clock();

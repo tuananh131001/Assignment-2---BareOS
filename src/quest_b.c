@@ -68,8 +68,8 @@ void get_command() {
 
     int cmd = -1;
     static int TOTAL_CMD = 10;
-    static char cmds[][20] = {"brdrev",   "cls",       "scrsize", "setcolor",
-                              "help",     "clockrate", "macadr",  "draw",
+    static char cmds[][20] = {"brdrev",   "cls",       "scrsize",  "setcolor",
+                              "help",     "clockrate", "vcmemory", "draw",
                               "brdmodel", "pxlclk"};
     // compare input
     for (int i = 0; i <= TOTAL_CMD; i++) {
@@ -137,7 +137,7 @@ void get_command() {
             break;
             // clockrate
         case 6:
-            get_mac_addr();
+            get_vcmemory();
             break;
         case 7:
             draw();
@@ -179,8 +179,8 @@ void get_command() {
 void get_input(char *temp_str) {
     int i = 0;
     int total_char = 0;  // total number of char that was input
-    static char cmds[][20] = {"brdrev",   "cls",       "scrsize", "setcolor",
-                              "help",     "clockrate", "macadr",  "draw",
+    static char cmds[][20] = {"brdrev",   "cls",       "scrsize",  "setcolor",
+                              "help",     "clockrate", "vcmemory", "draw",
                               "brdmodel", "pxlclk"};
     int index_cmd[10];
     int index_count = 0;
@@ -251,8 +251,12 @@ void get_input(char *temp_str) {
             // uart_puts(cmds[index_cmd[index_to_print]]);
 
             // change to next command when user press tab
-            index_to_print++;
-            
+            if (index_to_print < 10) {
+                index_to_print++;
+            } else {
+                index_to_print = 0;
+            }
+
             // strcmp(cmds[index_count],temp_str);
             // temp_str[j] = cmds[i][j];
             // total_char++
@@ -348,10 +352,10 @@ void help_function(char *temp_str) {
             "CLOCKRATE\t\tDisplay information of clock rate \n"
             "\t\tExample: clockrate \n");
 
-    } else if (strcmp(temp_str, "help macadar") == 0) {
+    } else if (strcmp(temp_str, "help vcmemory") == 0) {
         uart_puts(
-            "macadr\tDisplay MAC address of the board \n"
-            "\t\tExample: macadr \n");
+            "vcmemory\tDisplay VC Memory value \n"
+            "\t\tExample: vcmemory \n");
 
     } else if (strcmp(temp_str, "help draw") == 0) {
         uart_puts(
@@ -389,7 +393,7 @@ void help_function(char *temp_str) {
             //"help","armfreq","macadr","draw","brdmodel","pxlclk"
             "clockrate\tDisplay ARM clock rate 			"
             "				  \n"
-            "macadr\t\tShow MAC address			"
+            "vcmemory\t\tShow VC memory			"
             "				  \n"
             "draw\t\tDraw an circle on the screen 			"
             "	"
@@ -443,24 +447,25 @@ void get_clock_rate() {
         uart_puts("\nUnable to get ARM clock rate!\n");
     }
 }
-void get_mac_addr() {
-    // mailbox data buffer: Read ARM frequency
-    mBuf[0] =
-        7 *
-        4;  // Message Buffer Size in bytes (8 elements * 4 bytes (32 bit) each)
+void get_vcmemory() {
+    // set up serial console
+    uart_init();
+    mBuf[0] = 8 * 4;  // Message Buffer Size in bytes (8
+                                   // elements * 4 bytes (32 bit) each)
     mBuf[1] = MBOX_REQUEST;  // Message Request Code (this is a request message)
-    mBuf[2] = 0x00010003;    // TAG Identifier: Get mac address
-    mBuf[3] = 6;             // Reponse length
-    mBuf[4] = 0;             // REQUEST CODE = 0
-    mBuf[5] = 0;             // clear output buffer for board revision
+    mBuf[2] = 0x00010006;    // TAG Identifier: Get board serial
+    mBuf[3] = 8;  // Value buffer size in bytes (max of request and response
+                  // lengths)
+    mBuf[4] = 0;  // REQUEST CODE = 0
+    mBuf[5] = 0;
+    mBuf[6] = 0;  // clear output buffer (response data is mbox[6])
     mBuf[7] = MBOX_TAG_LAST;
-
     if (mbox_call(ADDR(mBuf), MBOX_CH_PROP)) {
-        uart_puts("\nMAC adress = ");
-        uart_dec(mBuf[5]);
+        uart_puts("DATA: VC memory size in bytes = ");
+        uart_hex(mBuf[6]);
         uart_puts("\n");
     } else {
-        uart_puts("\nUnable to get MAC address!\n");
+        uart_puts("Unable to get VC memory size!\n");
     }
 }
 void draw() {
@@ -478,9 +483,9 @@ void get_board_model() {
         4;  // Message Buffer Size in bytes (7 elements * 4 bytes (32 bit) each)
     mBuf[1] = MBOX_REQUEST;  // Message Request Code (this is a request message)
 
-    mBuf[2] = 0x00010001;  // TAG Identifier: Get board rate
+    mBuf[2] = 0x00010004;  // TAG Identifier: Get board rate
     mBuf[3] =
-        4;  // Value buffer size in bytes (max of request and response lengths)
+        8;  // Value buffer size in bytes (max of request and response lengths)
     mBuf[4] = 0;  // REQUEST CODE = 0
     mBuf[5] = 0;  // clear output buffer
     mBuf[6] = MBOX_TAG_LAST;
