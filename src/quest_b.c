@@ -1,6 +1,8 @@
 #include "quest_b.h"
 
+#include "framebf.h"
 #include "mbox.h"
+#include "printf.h"
 #include "uart.h"
 
 void get_command() {
@@ -68,9 +70,9 @@ void get_command() {
 
     int cmd = -1;
     static int TOTAL_CMD = 10;
-    static char cmds[][20] = {"brdrev",   "cls",       "scrsize",  "setcolor",
-                              "help",     "clockrate", "vcmemory", "draw",
-                              "brdmodel", "pxlclk"};
+    static char cmds[][20] = {"brdrev",    "cls",       "scrsize",  "setcolor",
+                              "help",      "clockrate", "vcmemory", "draw",
+                              "armmemory", "pxlclk"};
     // compare input
     for (int i = 0; i <= TOTAL_CMD; i++) {
         // set_color reuse only take the first argument
@@ -143,7 +145,7 @@ void get_command() {
             draw();
             break;
         case 8:
-            get_board_model();
+            get_armmemory();
             break;
         case 9:
             get_pixel_clock();
@@ -177,11 +179,10 @@ void get_command() {
 // sds
 
 void get_input(char *temp_str) {
-    int i = 0;
     int total_char = 0;  // total number of char that was input
-    static char cmds[][20] = {"brdrev",   "cls",       "scrsize",  "setcolor",
-                              "help",     "clockrate", "vcmemory", "draw",
-                              "brdmodel", "pxlclk"};
+    static char cmds[][20] = {"brdrev",    "cls",       "scrsize",  "setcolor",
+                              "help",      "clockrate", "vcmemory", "draw",
+                              "armmemory", "pxlclk"};
     int index_cmd[10];
     int index_count = 0;
     int index_to_print = 0;
@@ -198,39 +199,17 @@ void get_input(char *temp_str) {
             break;
 
         } else if (c == 9) {
-            // if user press tab, auto complete the command
-            char last_str[20];
-            int length = strlen(temp_str);
+            /*
+            1. Get the input from user and store it in temp_str
+            2. Compare the input with the commands and store the index of the
+            command in index_cmd
+            3. Clear the temp_str
+            4. Print the rest of the command
+            5. Change to next command when user press tab */
             for (int i = 0; i <= 10; i++) {
-                // if (strcmp(cmds[i], last_str) == 0) {
-                //     uart_puts(last_str);
-                //     continue;
-                // }
                 if (compare_str(cmds[i], temp_str)) {
-                    // print the rest command
-                    // if (strcmp(cmds[i], temp_str) == 0) {
-                    //     while (total_char != 0) {
-                    //         uart_sendc(8);
-                    //         uart_sendc(32);
-                    //         uart_sendc(8);
-
-                    //         total_char--;
-                    //     }
-                    //     clear(temp_str);
-                    //     for (int j = length; j <= str_len(cmds[i]); j++) {
-                    //         uart_sendc(cmds[i][j]);
-                    //         temp_str[j] = cmds[i][j];
-                    //         total_char++;
-                    //     }
-                    //     continue;
-                    // }
                     index_cmd[index_count] = i;
                     index_count++;
-                    // for (int j = length; j <= str_len(cmds[i]); j++) {
-                    //     uart_sendc(cmds[i][j]);
-                    //     // temp_str[j] = cmds[i][j];
-                    //     // total_char++;
-                    // }
                 }
             }
             // Clear temp str
@@ -238,7 +217,6 @@ void get_input(char *temp_str) {
                 uart_sendc(8);
                 uart_sendc(32);
                 uart_sendc(8);
-
                 total_char--;
             }
             clear(temp_str);
@@ -248,7 +226,6 @@ void get_input(char *temp_str) {
                 temp_str[j] = cmds[index_cmd[index_to_print]][j];
                 total_char++;
             }
-            // uart_puts(cmds[index_cmd[index_to_print]]);
 
             // change to next command when user press tab
             if (index_to_print < 10) {
@@ -256,10 +233,6 @@ void get_input(char *temp_str) {
             } else {
                 index_to_print = 0;
             }
-
-            // strcmp(cmds[index_count],temp_str);
-            // temp_str[j] = cmds[i][j];
-            // total_char++
 
         }
         // add each character into the string
@@ -362,10 +335,10 @@ void help_function(char *temp_str) {
             "draw\tDraw a circle \n"
             "\t\tExample: draw \n");
 
-    } else if (strcmp(temp_str, "help brdmodel") == 0) {
+    } else if (strcmp(temp_str, "help armmemory") == 0) {
         uart_puts(
-            "BRDMODEL\tDisplay board model \n"
-            "\t\tExample: brdmodel \n");
+            "armmemory\tDisplay ARM memory of the board \n"
+            "\t\tExample: armmemory \n");
 
     } else if (strcmp(temp_str, "help pxlclk") == 0) {
         uart_puts(
@@ -390,7 +363,7 @@ void help_function(char *temp_str) {
             "	"
             "					  \n"
             //"brdrev", "cls", "scrsize", "setcolor",
-            //"help","armfreq","macadr","draw","brdmodel","pxlclk"
+            //"help","armfreq","macadr","draw","armmemory","pxlclk"
             "clockrate\tDisplay ARM clock rate 			"
             "				  \n"
             "vcmemory\t\tShow VC memory			"
@@ -398,7 +371,7 @@ void help_function(char *temp_str) {
             "draw\t\tDraw an circle on the screen 			"
             "	"
             "			  \n"
-            "brdmodel\tShow board model		"
+            "armmemory\tShow board model		"
             "	"
             "			  \n"
             "pxlclk\t\tShow clock frequency of pixel clock	 	"
@@ -450,8 +423,8 @@ void get_clock_rate() {
 void get_vcmemory() {
     // set up serial console
     uart_init();
-    mBuf[0] = 8 * 4;  // Message Buffer Size in bytes (8
-                                   // elements * 4 bytes (32 bit) each)
+    mBuf[0] = 8 * 4;         // Message Buffer Size in bytes (8
+                             // elements * 4 bytes (32 bit) each)
     mBuf[1] = MBOX_REQUEST;  // Message Request Code (this is a request message)
     mBuf[2] = 0x00010006;    // TAG Identifier: Get board serial
     mBuf[3] = 8;  // Value buffer size in bytes (max of request and response
@@ -476,25 +449,24 @@ void draw() {
     drawCircleARGB32(300, 300, 100, 0x00FFFF00, 0);  // YELLOW
     // drawCircleARGB32(300, 300, 100, 0x00AABB00, 0);
 }
-void get_board_model() {
-    // Initialize frame buffer
-    mBuf[0] =
-        7 *
-        4;  // Message Buffer Size in bytes (7 elements * 4 bytes (32 bit) each)
+void get_armmemory() {
+    uart_init();
+    mBuf[0] = 8 * 4;         // Message Buffer Size in bytes (8
+                             // elements * 4 bytes (32 bit) each)
     mBuf[1] = MBOX_REQUEST;  // Message Request Code (this is a request message)
-
-    mBuf[2] = 0x00010004;  // TAG Identifier: Get board rate
-    mBuf[3] =
-        8;  // Value buffer size in bytes (max of request and response lengths)
+    mBuf[2] = 0x00010005;    // TAG Identifier: Get board serial
+    mBuf[3] = 8;  // Value buffer size in bytes (max of request and response
+                  // lengths)
     mBuf[4] = 0;  // REQUEST CODE = 0
-    mBuf[5] = 0;  // clear output buffer
-    mBuf[6] = MBOX_TAG_LAST;
-
+    mBuf[5] = 0;
+    mBuf[6] = 0;  // clear output buffer (response data is mbox[6])
+    mBuf[7] = MBOX_TAG_LAST;
     if (mbox_call(ADDR(mBuf), MBOX_CH_PROP)) {
-        uart_puts("Model of board: ");
-        uart_hex(mBuf[5]);
+        uart_puts("ARM Memory = ");
+        uart_hex(mBuf[6]);
+        uart_puts("\n");
     } else {
-        uart_puts("Unable to query!\n");
+        uart_puts("\nUnable to get ARM memory!\n");
     }
 }
 void get_pixel_clock() {

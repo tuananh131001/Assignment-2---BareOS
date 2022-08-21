@@ -4,6 +4,7 @@
         "string.h": "c",
         "stdlib.h": "c",
         "mbox.h": "c",
-        "gpio.h": "c"
+        "gpio.h": "c",
+        "quest_b.h": "c"
     }
 }

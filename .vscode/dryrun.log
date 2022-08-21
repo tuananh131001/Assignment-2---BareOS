@@ -1,5 +1,6 @@
 make.exe --dry-run --keep-going --print-directory
 make.exe: Entering directory `c:/Users/TA/Documents/Assignment-2---BareOS'
+ 
 rm -f *.img ./object/kernel8.elf ./object/*.o
  
 qemu-system-aarch64 -M raspi3b -kernel kernel8.img -serial null -serial stdio
