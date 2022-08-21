@@ -228,7 +228,7 @@ void get_input(char *temp_str) {
             }
 
             // change to next command when user press tab
-            if (index_to_print < 10) {
+            if (index_to_print < 9) {
                 index_to_print++;
             } else {
                 index_to_print = 0;

@@ -14,7 +14,7 @@ $(BUILD_DIR)/boot.o: $(SRC_DIR)/boot.S
 	aarch64-none-elf-gcc $(GCCFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	aarch64-none-elf-gcc $(CFLAGS) $(GCCFLAGS)  -c $< -o $@
+	aarch64-none-elf-gcc $(CFLAGS) -ffreestanding  -c $< -o $@
 
 kernel8.img: $(BUILD_DIR)/boot.o $(OFILES)
 	aarch64-none-elf-ld $(LDFLAGS) $(BUILD_DIR)/boot.o $(OFILES) -T $(SRC_DIR)/link.ld -o $(BUILD_DIR)/kernel8.elf
