@@ -8,7 +8,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # This program built for i386-pc-mingw32
  
 
-# Make data base, printed on Sun Aug 21 12:21:41 2022
+# Make data base, printed on Sun Aug 21 12:39:17 2022
 
 # Variables
 
@@ -77,9 +77,8 @@ LDFLAGS = -nostdlib
 .FEATURES := target-specific order-only second-expansion else-if archives
 # automatic
 %F = $(notdir $%)
-# envir 
-onment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_13400_BBEYOFZVLUCBVBPZ
+# environment
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_17104_OSWWZUBSJLEWGVHL
 # environment
 COMPUTERNAME = DESKTOP-VUVCBCM
 # environment
@@ -95,9 +94,10 @@ PUBLIC = C:\Users\Public
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\TA\AppData\Roaming\Code\CachedData\e4503b30fc78200f846c62cf8091b76ff5547662
+VSCODE_CODE_CACHE_PATH = C:\Users\TA\AppData\Roaming\Cod 
+e\CachedData\e4503b30fc78200f846c62cf8091b76ff5547662
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 COMMONPROGRAMFILES = C:\Program Files (x86)\Common Files
 # environment
@@ -116,8 +116,7 @@ BUILD_DIR = ./object
 MAKE_VERSION := 3.81
 # makefile
 .DEFAULT_GOAL := all
-# 
- environment
+# environment
 PROGRAMFILES(X86) = C:\Program Files (x86)
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
@@ -135,8 +134,7 @@ PROCESSOR_ARCHITEW6432 = AMD64
 *F = $(notdir $*)
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 165 Stepping 3, GenuineIntel
-# environm 
-ent
+# environment
 OS = Windows_NT
 # environment
 VSCODE_IPC_HOOK = \\.\pipe\6d8abdafa80365805ead99060398f090-1.70.2-main-sock
@@ -184,8 +182,7 @@ PROCESSOR_REVISION = a503
 PYCHARM = E:\PyCharm 2022.1.4\bin;
 # makefile (from `makefile', line 6)
 OFILES = $(CFILES:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
-# en 
-vironment
+# environment
 MAKELEVEL := 0
 # environment
 LANG = C
@@ -194,7 +191,7 @@ PROCESSOR_LEVEL = 6
 # environment
 FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
 # environment
-VSCODE_PID = 13400
+VSCODE_PID = 17104
 # environment
 USERDOMAIN_ROAMINGPROFILE = DESKTOP-VUVCBCM
 # variable set hash-table stats:
@@ -206,28 +203,25 @@ USERDOMAIN_ROAMINGPROFILE = DESKTOP-VUVCBCM
 
 # Directories
 
-# C:\Users\TA\AppData\Local\Microsoft\WindowsApps (key C:/Users/TA/AppData/Local/Microsoft/WindowsAp 
-ps, mtime 1660837455): 9 files, no impossibilities.
+# C:\Users\TA\AppData\Local\Microsoft\WindowsApps (key C:/Users/TA/AppData/Local/Microsoft/WindowsApps, mtime 1660837455): 9 files, no impossibilities.
 # C:\Users\TA\AppData\Local\gitkraken\bin (key C:/Users/TA/AppData/Local/gitkraken/bin, mtime 1660199128): 3 files, no impossibilities.
 # C:\Program Files\qemu (key C:/Program Files/qemu, mtime 1660717190): 156 files, no impossibilities.
 # C:\Windows\System32\WindowsPowerShell\v1.0\ (key C:/Windows/System32/WindowsPowerShell/v1.0/, mtime 1633528630): 30 files, no impossibilities.
-# C:\Windows\System32\Wbem (key C:/Windows/System32/Wbem, mtime 1660157987):  
-169 files, no impossibilities.
-# . (key c:/Users/TA/Documents/Assignment-2---BareOS, mtime 1661059271): 11 files, no impossibilities.
+# C:\Windows\System32\Wbem (key C:/Windows/System32/Wbem, mtime 1660157987 
+): 169 files, no impossibilities.
+# . (key c:/Users/TA/Documents/Assignment-2---BareOS, mtime 1661060084): 11 files, no impossibilities.
 # C:\Program Files (x86)\gcc-arm-10.3-2021.07-mingw-w64-i686-aarch64-none-elf\bin (key C:/Program Files (x86)/gcc-arm-10.3-2021.07-mingw-w64-i686-aarch64-none-elf/bin, mtime 1660109228): 33 files, no impossibilities.
-# C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common (key C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common, mtime 1657433843): 10 files, no impossibili 
-ties.
+# C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common (key C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common, mtime 1657433843): 10 files, no impossibilities.
 # E:\PyCharm 2022.1.4\bin (key E:/PyCharm 2022.1.4/bin, mtime 1659168922): 28 files, no impossibilities.
 # C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin (key C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin, mtime 1660103553): 35 files, no impossibilities.
 # C:\ProgramData\scoop\shims (key C:/ProgramData/scoop/shims, mtime 1660579022): 6 files, no impossibilities.
-# ./src (key c:/Users/TA/Documents/Assignment-2---BareOS/src, mtime 1660724643): 20 files, no impossibil 
-ities.
+# ./src (key c:/Users/TA/Documents/Assignment-2---BareOS/src, mtime 1660724643): 20 files, no impossibilities.
 # C:\Windows\System32\OpenSSH\: could not be stat'd.
 # C:\Windows (key C:/Windows, mtime 1661056548): 116 files, no impossibilities.
 # C:\Users\TA\AppData\Local\Programs\Python\Python310\ (key C:/Users/TA/AppData/Local/Programs/Python/Python310/, mtime 1660837299): 18 files, no impossibilities.
 # C:\Users\TA\AppData\Local\Programs\Python\Python310\Scripts\ (key C:/Users/TA/AppData/Local/Programs/Python/Python310/Scripts/, mtime 1660837299): 5 files, no impossibilities.
-# C:\Users\TA\AppData\Local\Pro 
-grams\Microsoft VS Code\bin (key C:/Users/TA/AppData/Local/Programs/Microsoft VS Code/bin, mtime 1660800155): 4 files, no impossibilities.
+# C:\Users\TA\AppData\Local\ 
+Programs\Microsoft VS Code\bin (key C:/Users/TA/AppData/Local/Programs/Microsoft VS Code/bin, mtime 1660800155): 4 files, no impossibilities.
 # C:\Program Files\Git\cmd (key C:/Program Files/Git/cmd, mtime 1658908844): 8 files, no impossibilities.
 # C:\Windows\system32 (key C:/Windows/system32, mtime 1661056934): 2986 files, no impossibilities.
 # C:\Users\TA\scoop\shims (key C:/Users/TA/scoop/shims, mtime 1660578767): 5 files, no impossibilities.
@@ -249,7 +243,8 @@ object/%.o: ./src/%.c
 
 # Not a target:
 object/uart.o:
-#  Implicit rule search has not been done.
+#  
+ Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
@@ -266,8 +261,7 @@ object/boot.o: src/boot.S
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to exe 
-cute (from `makefile', line 14):
+#  commands to execute (from `makefile', line 14):
 	aarch64-none-elf-gcc $(GCCFLAGS) -c $< -o $@
 	
 
@@ -289,7 +283,8 @@ test: all run
 #  File has not been updated.
 
 # Not a target:
-makefile:
+makefil 
+e:
 #  Implicit rule search has been done.
 #  Last modified 2022-08-21 12:21:08
 #  File has been updated.
@@ -329,7 +324,8 @@ run:
 	qemu-system-aarch64 -M raspi3b -kernel kernel8.img -serial null -serial stdio
 	
 
-# Not a target:
+# No 
+t a target:
 object/framebf.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -358,7 +354,8 @@ clean:
 # automatic
 # ? := 
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/12=8%
+#  
+Load=8/32=25%, Rehash=0, Collisions=1/12=8%
 #  commands to execute (from `makefile', line 24):
 	rm -f *.img $(BUILD_DIR)/kernel8.elf $(BUILD_DIR)/*.o
 	
@@ -372,8 +369,7 @@ src/boot.S:
 kernel8.img: object/boot.o object/framebf.o object/main.o object/mbox.o object/printf.o object/quest_a.o object/quest_b.o object/uart.o
 #  Implicit rule search has not been done.
 #  Modification time never checked.
-#  File h 
-as not been updated.
+#  File has not been updated.
 #  commands to execute (from `makefile', line 20):
 	aarch64-none-elf-ld $(LDFLAGS) $(BUILD_DIR)/boot.o $(OFILES) -T $(SRC_DIR)/link.ld -o $(BUILD_DIR)/kernel8.elf
 	aarch64-none-elf-objcopy -O binary $(BUILD_DIR)/kernel8.elf kernel8.img
@@ -389,8 +385,8 @@ object/main.o:
 # Load=17/1024=2%, Rehash=0, Collisions=0/44=0%
 # VPATH Search Paths
 
-# No `vpath' se 
-arch paths.
+# No `vpath' 
+ search paths.
 
 # No general (`VPATH' variable) search path.
 
@@ -399,6 +395,6 @@ arch paths.
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Sun Aug 21 12:21:41 2022
+# Finished Make data base on Sun Aug 21 12:39:17 2022
 
  
