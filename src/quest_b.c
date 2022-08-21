@@ -24,7 +24,7 @@ void get_command() {
     char width[CHAR_LIMIT];
     char height[CHAR_LIMIT];
     char screen_type1[CHAR_LIMIT];
-
+    clear(temp_str);
     get_input(temp_str);
 
     // Split the command into color  commands
